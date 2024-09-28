@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.pluto.Controller">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.thereadingroom.LoginController">
    <left>
       <AnchorPane prefHeight="407.0" prefWidth="228.0" style="-fx-background-color: purple;" BorderPane.alignment="CENTER">
          <children>
@@ -60,13 +60,13 @@
                   <Font size="16.0" />
                </font>
             </Button>
-            <Button fx:id="exitBtn" alignment="CENTER" layoutX="35.0" layoutY="323.0" mnemonicParsing="false" onAction="#exitBtnOnAction" prefHeight="25.0" prefWidth="230.0" style="-fx-background-color: red;" text="Exit" textFill="WHITE">
+            <Button fx:id="exitBtn" alignment="CENTER" layoutX="35.0" layoutY="320.0" mnemonicParsing="false" onAction="#exitBtnOnAction" prefHeight="25.0" prefWidth="230.0" style="-fx-background-color: red;" text="Exit" textFill="WHITE">
                <font>
                   <Font size="16.0" />
                </font>
             </Button>
             <Label fx:id="loginMessageLabel" alignment="CENTER" layoutX="3.0" layoutY="118.0" prefHeight="17.0" prefWidth="290.0" textAlignment="CENTER" textFill="#c60000" />
-            <Button fx:id="signUpBtn" alignment="CENTER" layoutX="35.0" layoutY="285.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="230.0" style="-fx-background-color: green;" text="Sign Up" textFill="WHITE">
+            <Button fx:id="signUpBtn" alignment="CENTER" layoutX="35.0" layoutY="285.0" mnemonicParsing="false" onAction="#signUpBtnOnAction" prefHeight="25.0" prefWidth="230.0" style="-fx-background-color: green;" text="Sign Up" textFill="WHITE">
                <font>
                   <Font size="16.0" />
                </font>
