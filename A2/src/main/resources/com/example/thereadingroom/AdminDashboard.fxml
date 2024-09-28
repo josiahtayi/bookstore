@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" prefHeight="400" prefWidth="600">
+    <VBox spacing="10" alignment="CENTER" AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="20.0">
+        <Label text="Admin Dashboard" style="-fx-font-size: 18px;" />
+
+        <!-- Books Inventory -->
+        <TableView fx:id="inventoryTable" prefHeight="200" prefWidth="500">
+            <columns>
+                <TableColumn fx:id="bookTitleColumn" text="Book Title"/>
+                <TableColumn fx:id="authorColumn" text="Author"/>
+                <TableColumn fx:id="stockColumn" text="Stock Available"/>
+                <TableColumn fx:id="priceColumn" text="Price"/>
+                <TableColumn fx:id="soldCopiesColumn" text="Copies Sold"/>
+            </columns>
+        </TableView>
+
+        <!-- Stock Management Buttons -->
+        <HBox spacing="10">
+            <Button text="Increase Stock" onAction="#handleIncreaseStock"/>
+            <Button text="Decrease Stock" onAction="#handleDecreaseStock"/>
+        </HBox>
+
+        <!-- Logout Button -->
+        <Button text="Log out" onAction="#handleLogout" prefWidth="100"/>
+    </VBox>
+</AnchorPane>

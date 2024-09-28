@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" prefHeight="400" prefWidth="600" stylesheets="@style.css">
+    <VBox spacing="10" alignment="CENTER" AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="20.0">
+        <!-- Greeting Message -->
+        <Label fx:id="welcomeLabel" text="Welcome, [User]!" style="-fx-font-size: 20px; -fx-text-fill: #ff4081;"/>
+
+        <!-- Top 5 Books List -->
+        <Label text="Top 5 Popular Books" style="-fx-font-size: 16px; -fx-text-fill: #3f51b5;"/>
+        <ListView fx:id="topBooksListView" prefHeight="150" prefWidth="400" style="-fx-border-color: #3f51b5;"/>
+
+        <!-- Navigation Buttons -->
+        <HBox spacing="10">
+            <Button text="View Orders" onAction="#handleViewOrders" style="-fx-background-color: #3f51b5; -fx-text-fill: white;"/>
+            <Button text="Go to Shopping Cart" onAction="#handleShoppingCart" style="-fx-background-color: #ff4081; -fx-text-fill: white;"/>
+            <Button text="Log out" onAction="#handleLogout" style="-fx-background-color: #3f51b5; -fx-text-fill: white;"/>
+        </HBox>
+    </VBox>
+</AnchorPane>

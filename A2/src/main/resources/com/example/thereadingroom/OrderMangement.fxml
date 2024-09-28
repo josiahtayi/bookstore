@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" prefHeight="400" prefWidth="600">
+    <VBox spacing="10" alignment="CENTER" AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="20.0">
+        <Label text="Your Orders" style="-fx-font-size: 18px;" />
+
+        <!-- Orders List -->
+        <TableView fx:id="ordersTable" prefHeight="200" prefWidth="500">
+            <columns>
+                <TableColumn fx:id="orderNumberColumn" text="Order Number"/>
+                <TableColumn fx:id="orderDateColumn" text="Date"/>
+                <TableColumn fx:id="totalPriceColumn" text="Total Price"/>
+            </columns>
+        </TableView>
+
+        <!-- Export Orders -->
+        <Button text="Export Orders to CSV" onAction="#handleExportOrders" prefWidth="200"/>
+    </VBox>
+</AnchorPane>

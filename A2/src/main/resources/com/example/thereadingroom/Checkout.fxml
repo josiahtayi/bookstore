@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" prefHeight="400" prefWidth="600" stylesheets="@style.css">
+    <VBox spacing="10" alignment="CENTER" AnchorPane.topAnchor="20.0" AnchorPane.leftAnchor="20.0">
+        <Label text="Checkout" style="-fx-font-size: 18px; -fx-text-fill: #3f51b5;" />
+
+        <!-- Total Price -->
+        <Label fx:id="totalPriceLabel" text="Total Price: AUD 0.00" style="-fx-font-size: 16px; -fx-text-fill: #ff4081;" />
+
+        <!-- Payment Form -->
+        <GridPane hgap="10" vgap="10">
+            <Label text="Card Number:" style="-fx-text-fill: #3f51b5;"/>
+            <TextField fx:id="cardNumberField" promptText="Enter 16-digit card number" />
+
+            <Label text="Expiry Date (MM/YY):" style="-fx-text-fill: #3f51b5;"/>
+            <TextField fx:id="expiryDateField" promptText="MM/YY" />
+
+            <Label text="CVV:" style="-fx-text-fill: #3f51b5;"/>
+            <PasswordField fx:id="cvvField" promptText="3-digit CVV" />
+        </GridPane>
+
+        <!-- Checkout Button -->
+        <Button text="Confirm and Pay" onAction="#handlePayment" prefWidth="150" style="-fx-background-color: #ff4081; -fx-text-fill: white;"/>
+    </VBox>
+</AnchorPane>
