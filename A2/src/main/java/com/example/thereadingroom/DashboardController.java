@@ -27,11 +27,7 @@ public class DashboardController {
     @FXML
     private ListView<String> searchResultsListView;
 
-    private List<String> books = Arrays.asList(
-            "Absolute Java", "JAVA: How to Program", "Computing Concepts with JAVA 8",
-            "Java Software Solutions", "Clean Code", "Python Basics",
-            "Gray Hat C#", "Bayesian Statistics The Fun Way"
-    );
+
 
     @FXML
     public void handleSearchBooks() {
