@@ -30,8 +30,9 @@ public class LoginController {
     private Button signUpBtn;
 
     public void loginBtnOnAction(ActionEvent e) {
-        if (usernameTF.getText().isBlank() == false && passwordPF.getText().isBlank() == false) {
+        if (!usernameTF.getText().isBlank() && !passwordPF.getText().isBlank()) {
             validateLogin();
+            openDashBoard();
         } else {
             loginMessageLabel.setText("Please enter your username and password");
         }
@@ -44,6 +45,7 @@ public class LoginController {
 
     public void signUpBtnOnAction(ActionEvent e) {
         signUpForm();
+
     }
 
     public void validateLogin() {
@@ -51,8 +53,6 @@ public class LoginController {
         Connection connectDB = connect.openLink();
 
         String VerifyLogin = "SELECT count(1) From Users Where Username = '" + usernameTF.getText() + "' AND Password = '" + passwordPF.getText() + "'";
-        ;
-
         try {
             Statement statement = connectDB.createStatement();
             ResultSet resultSet = statement.executeQuery(VerifyLogin);
@@ -77,6 +77,19 @@ public class LoginController {
             signUpStage.setScene(new Scene(root, 520, 400));
             signUpStage.show();
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getCause();
+        }
+
+    }
+    public void openDashBoard() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("Dashboard.fxml"));
+            Stage signUpStage = new Stage();
+            signUpStage.initStyle(StageStyle.UNDECORATED);
+            signUpStage.setScene(new Scene(root, 520, 400));
+            signUpStage.show();
         } catch (Exception e) {
             e.printStackTrace();
             e.getCause();
