@@ -1,4 +1,4 @@
-module com.example.thereadingroom {
+module main.java.com.example.thereadingroom {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
