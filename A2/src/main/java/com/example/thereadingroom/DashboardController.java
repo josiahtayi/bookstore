@@ -30,25 +30,25 @@ public class DashboardController {
 
 
     @FXML
-    public void handleSearchBooks() {
-        String query = searchField.getText().toLowerCase();
-        searchResultsListView.getItems().clear();
-
-        if (!query.isEmpty()) {
-            List<String> results = books.stream()
-                    .filter(book -> book.toLowerCase().contains(query))
-                    .collect(Collectors.toList());
-
-            if (!results.isEmpty()) {
-                searchResultsListView.getItems().addAll(results);
-            } else {
-                searchResultsListView.getItems().add("No books found.");
-            }
-            searchResultsListView.setVisible(true);  // Show search results
-        } else {
-            searchResultsListView.setVisible(false);  // Hide if the search is empty
-        }
-    }
+//    public void handleSearchBooks() {
+//        String query = searchField.getText().toLowerCase();
+//        searchResultsListView.getItems().clear();
+//
+//        if (!query.isEmpty()) {
+//            List<String> results = books.stream()
+//                    .filter(book -> book.toLowerCase().contains(query))
+//                    .collect(Collectors.toList());
+//
+//            if (!results.isEmpty()) {
+//                searchResultsListView.getItems().addAll(results);
+//            } else {
+//                searchResultsListView.getItems().add("No books found.");
+//            }
+//            searchResultsListView.setVisible(true);  // Show search results
+//        } else {
+//            searchResultsListView.setVisible(false);  // Hide if the search is empty
+//        }
+//    }
 
     public void handleSaveProfile(ActionEvent actionEvent) {
         String firstName = firstNameField.getText().trim();
