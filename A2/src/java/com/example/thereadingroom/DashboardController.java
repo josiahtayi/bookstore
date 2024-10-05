@@ -6,9 +6,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import org.sqlite.core.DB;
+
+import java.sql.*;
+
 
 public class DashboardController {
 
@@ -28,54 +29,41 @@ public class DashboardController {
     private ListView<String> searchResultsListView;
 
 
+    public void top5Books() {
 
-    @FXML
-//    public void handleSearchBooks() {
-//        String query = searchField.getText().toLowerCase();
-//        searchResultsListView.getItems().clear();
-//
-//        if (!query.isEmpty()) {
-//            List<String> results = books.stream()
-//                    .filter(book -> book.toLowerCase().contains(query))
-//                    .collect(Collectors.toList());
-//
-//            if (!results.isEmpty()) {
-//                searchResultsListView.getItems().addAll(results);
-//            } else {
-//                searchResultsListView.getItems().add("No books found.");
-//            }
-//            searchResultsListView.setVisible(true);  // Show search results
-//        } else {
-//            searchResultsListView.setVisible(false);  // Hide if the search is empty
-//        }
-//    }
 
-    public void handleSaveProfile(ActionEvent actionEvent) {
-        String firstName = firstNameField.getText().trim();
-        String lastName = lastNameField.getText().trim();
+        DBConnection connectDB = new DBConnection();
+        Connection connection = connectDB.openLink();
 
-        // Basic validation
-        if (firstName.isEmpty() || lastName.isEmpty()) {
-            // Handle empty fields (e.g., show a message)
-            System.out.println("First and last names cannot be empty!");
-            return;
+        String top5query = "SELECT * FROM Books ORDER BY sales DESC LIMIT 5";
+
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(top5query);
+
+            while (resultSet.next()) {
+                String bookTitle = resultSet.getString("bookTitle");
+                String author = resultSet.getString("author");
+                String sales = resultSet.getString("sales");
+                String price = resultSet.getString("price");
+
+                
+            }
+
+
+        } catch (Exception e){
+            e.printStackTrace();
+            e.getCause();
+
         }
 
-        // Update the welcome message
-        welcomeLabel.setText("Welcome, " + firstName + " " + lastName + "!");
-        // Save logic goes here (e.g., update database)
 
-        // Clear fields after saving
-        firstNameField.clear();
-        lastNameField.clear();
-        passwordField.clear();
+
     }
 
-    // Optionally, add a method to clear search results
-    @FXML
-    public void handleClearSearch() {
-        searchField.clear();
-        searchResultsListView.getItems().clear();
-        searchResultsListView.setVisible(false);
+
+
+
+
     }
-}
+

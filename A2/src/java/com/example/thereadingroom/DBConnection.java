@@ -11,12 +11,13 @@ public class DBConnection {
         String databaseName = "";
         String databaseUser = "";
         String databasePassword = "";
-        String databaseURL = "jdbc:sqlite:./src/TheDatabase.db";
+        String databaseURL = "jdbc:sqlite:TheDatabase.db";
 
 
         try {
             // add class.forname
             DBLink = DriverManager.getConnection(databaseURL);
+            System.out.println("Connected to the database successfully");
         } catch (SQLException e) {
             e.printStackTrace();
         }

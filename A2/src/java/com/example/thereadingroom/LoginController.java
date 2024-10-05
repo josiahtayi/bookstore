@@ -13,9 +13,7 @@ import javafx.scene.control.PasswordField;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 
 public class LoginController {
     @FXML
@@ -31,8 +29,13 @@ public class LoginController {
 
     public void loginBtnOnAction(ActionEvent e) {
         if (!usernameTF.getText().isBlank() && !passwordPF.getText().isBlank()) {
-            validateLogin();
-            openDashBoard();
+            if (validateLogin()) {
+                openDashBoard();
+            } else {
+                loginMessageLabel.setText("Invalid username or password. Please try again.");
+                passwordPF.clear();
+                usernameTF.clear();
+            }
         } else {
             loginMessageLabel.setText("Please enter your username and password");
         }
@@ -48,26 +51,47 @@ public class LoginController {
 
     }
 
-    public void validateLogin() {
+    public boolean validateLogin() {
         DBConnection connect = new DBConnection();
         Connection connectDB = connect.openLink();
 
-        String VerifyLogin = "SELECT count(1) From Users Where Username = '" + usernameTF.getText() + "' AND Password = '" + passwordPF.getText() + "'";
-        try {
-            Statement statement = connectDB.createStatement();
-            ResultSet resultSet = statement.executeQuery(VerifyLogin);
+        // Use a prepared statement with placeholders to prevent SQL injection
+        String verifyLogin = "SELECT count(1) FROM Users WHERE Username = ? AND Password = ?";
+        boolean loginResult = false;
 
-            while (resultSet.next()) {
-                if (resultSet.getInt(1) == 1) {
-                    loginMessageLabel.setText("You are logged in.");
-                } else {
-                    loginMessageLabel.setText("You are not logged in, Please try again.");
-                }
+        try {
+            // Prepare the SQL statement
+            PreparedStatement preparedStatement = connectDB.prepareStatement(verifyLogin);
+
+            // Set the parameters for the placeholders
+            preparedStatement.setString(1, usernameTF.getText());
+            preparedStatement.setString(2, passwordPF.getText());
+
+            // Execute the query and get the result set
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Check if the user exists
+            if (resultSet.next() && resultSet.getInt(1) == 1) {
+                loginMessageLabel.setText("You are logged in.");
+                loginResult = true;
+            } else {
+                loginMessageLabel.setText("Invalid username or password.");
+
             }
-        } catch (Exception e) {
+
+            // Close resources
+            resultSet.close();
+            preparedStatement.close();
+
+        } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            connect.closeLink();  // Always close the connection
         }
+
+        return loginResult;
     }
+
 
     public void signUpForm() {
         try {
@@ -76,16 +100,16 @@ public class LoginController {
             signUpStage.initStyle(StageStyle.UNDECORATED);
             signUpStage.setScene(new Scene(root, 520, 400));
             signUpStage.show();
-
         } catch (Exception e) {
             e.printStackTrace();
             e.getCause();
         }
 
     }
+
     public void openDashBoard() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("Dashboard.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("MainTabs.fxml"));
             Stage signUpStage = new Stage();
             signUpStage.initStyle(StageStyle.UNDECORATED);
             signUpStage.setScene(new Scene(root, 520, 400));
