@@ -15,7 +15,7 @@ public class HelloApplication extends Application {
 
         Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
         stage.initStyle(StageStyle.UNDECORATED);
-        stage.setScene(new Scene(root, 520, 400));
+        stage.setScene(new Scene(root, 600, 600));
         stage.show();
     }
 

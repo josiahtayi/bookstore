@@ -39,7 +39,7 @@ public class Book {
         return stock;
     }
     public void setStock(int stock) {
-        stock = stock;
+        this.stock = stock;
     }
     public int getPrice() {
         return price;

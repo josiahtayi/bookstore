@@ -98,7 +98,7 @@ public class LoginController {
             Parent root = FXMLLoader.load(getClass().getResource("SignUp.fxml"));
             Stage signUpStage = new Stage();
             signUpStage.initStyle(StageStyle.UNDECORATED);
-            signUpStage.setScene(new Scene(root, 520, 400));
+            signUpStage.setScene(new Scene(root, 600, 600));
             signUpStage.show();
         } catch (Exception e) {
             e.printStackTrace();
@@ -117,7 +117,7 @@ public class LoginController {
 
             Stage dashboardStage = new Stage();
             dashboardStage.initStyle(StageStyle.UNDECORATED);
-            dashboardStage.setScene(new Scene(root, 520, 400));
+            dashboardStage.setScene(new Scene(root, 600, 600));
             dashboardStage.show();
         } catch (Exception e) {
             e.printStackTrace();
