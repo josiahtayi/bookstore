@@ -35,7 +35,6 @@ public class LoginController {
                 openDashBoard();
                 Stage stage = (Stage) loginBtn.getScene().getWindow();
                 stage.close();
-
             } else {
                 loginMessageLabel.setText("Invalid username or password. Please try again.");
                 passwordPF.clear();
@@ -91,7 +90,6 @@ public class LoginController {
         } finally {
             connect.closeLink();  // Always close the connection
         }
-
         return loginResult;
     }
 
@@ -111,11 +109,16 @@ public class LoginController {
 
     public void openDashBoard() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("MainTabs.fxml"));
-            Stage signUpStage = new Stage();
-            signUpStage.initStyle(StageStyle.UNDECORATED);
-            signUpStage.setScene(new Scene(root, 520, 400));
-            signUpStage.show();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Dashboard.fxml"));
+            Parent root = loader.load();
+
+            DashboardController dashboardController = loader.getController();
+            dashboardController.setWelcomeLabel(usernameTF.getText());
+
+            Stage dashboardStage = new Stage();
+            dashboardStage.initStyle(StageStyle.UNDECORATED);
+            dashboardStage.setScene(new Scene(root, 520, 400));
+            dashboardStage.show();
         } catch (Exception e) {
             e.printStackTrace();
             e.getCause();

@@ -9,11 +9,14 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.IOException;
+
 
 public class DashboardController {
 
     @FXML
     public Label welcomeLabel;
+    @FXML
     public ListView searchResultsListView;
     @FXML
     private TextField searchField;
@@ -27,30 +30,9 @@ public class DashboardController {
     private Button shoppingCartBtn;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public void setWelcomeLabel(String username) {
+        welcomeLabel.setText("Welcome, " + username + "!");
+    }
 
 
     public void logOutBtnOnAction(ActionEvent actionEvent) {
