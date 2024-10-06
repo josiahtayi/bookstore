@@ -21,6 +21,8 @@ public class LoginController {
     @FXML
     private Label loginMessageLabel;
     @FXML
+    private Button loginBtn;
+    @FXML
     private TextField usernameTF;
     @FXML
     private PasswordField passwordPF;
@@ -31,6 +33,9 @@ public class LoginController {
         if (!usernameTF.getText().isBlank() && !passwordPF.getText().isBlank()) {
             if (validateLogin()) {
                 openDashBoard();
+                Stage stage = (Stage) loginBtn.getScene().getWindow();
+                stage.close();
+
             } else {
                 loginMessageLabel.setText("Invalid username or password. Please try again.");
                 passwordPF.clear();
@@ -76,9 +81,7 @@ public class LoginController {
                 loginResult = true;
             } else {
                 loginMessageLabel.setText("Invalid username or password.");
-
             }
-
             // Close resources
             resultSet.close();
             preparedStatement.close();
@@ -91,7 +94,6 @@ public class LoginController {
 
         return loginResult;
     }
-
 
     public void signUpForm() {
         try {

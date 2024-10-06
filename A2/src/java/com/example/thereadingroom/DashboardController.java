@@ -2,68 +2,95 @@ package com.example.thereadingroom;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import org.sqlite.core.DB;
-
-import java.sql.*;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 
 public class DashboardController {
 
     @FXML
     public Label welcomeLabel;
-    @FXML
-    public TextField firstNameField;
-    @FXML
-    public TextField lastNameField;
-    @FXML
-    public PasswordField passwordField;
+    public ListView searchResultsListView;
     @FXML
     private TextField searchField;
     @FXML
-    private ListView<String> topBooksListView;
+    private TableView<String> top5table;
     @FXML
-    private ListView<String> searchResultsListView;
+    private Button searchBtn;
+    @FXML
+    private Button logOutBtn;
+    @FXML
+    private Button shoppingCartBtn;
 
 
-    public void top5Books() {
 
 
-        DBConnection connectDB = new DBConnection();
-        Connection connection = connectDB.openLink();
 
-        String top5query = "SELECT * FROM Books ORDER BY sales DESC LIMIT 5";
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public void logOutBtnOnAction(ActionEvent actionEvent) {
+        Stage stage = (Stage) logOutBtn.getScene().getWindow();
+        stage.close();
+        showLogin();
+
+    }
+
+    public void showLogin() {
         try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(top5query);
-
-            while (resultSet.next()) {
-                String bookTitle = resultSet.getString("bookTitle");
-                String author = resultSet.getString("author");
-                String sales = resultSet.getString("sales");
-                String price = resultSet.getString("price");
-
-                
-            }
-
-
-        } catch (Exception e){
+            Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+            Stage signUpStage = new Stage();
+            signUpStage.initStyle(StageStyle.UNDECORATED);
+            signUpStage.setScene(new Scene(root, 520, 400));
+            signUpStage.show();
+        } catch (Exception e) {
             e.printStackTrace();
             e.getCause();
-
         }
-
-
-
     }
 
 
-
-
-
+    public void shoppingCartBtnOnAction(ActionEvent actionEvent) {
+        openShoppingCart();
     }
+
+    public void openShoppingCart() {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("ShoppingCart.fxml"));
+            Stage shoppingCart = new Stage();
+            shoppingCart.initStyle(StageStyle.UNDECORATED);
+            shoppingCart.setScene(new Scene(root, 520, 400));
+            shoppingCart.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getCause();
+        }
+    }
+
+
+}
 
