@@ -2,7 +2,6 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -13,16 +12,16 @@
    <children>
    
                 <!-- Search for Books -->
-       <HBox alignment="CENTER" layoutX="125.0" layoutY="300.0" spacing="10">
+       <HBox alignment="CENTER" layoutX="125.0" layoutY="273.0" spacing="10">
            <TextField fx:id="searchField" prefWidth="250" promptText="Search for books..." style="-fx-background-color: #f9f9f9; -fx-border-color: #ccc;" />
            <Button fx:id="searchBtn" prefHeight="25.0" prefWidth="68.0" style="-fx-background-color: #3f51b5; -fx-text-fill: white;" text="Search" />
        </HBox>
    
                    <!-- Greeting Message -->
-       <Label fx:id="welcomeLabel" layoutX="245.0" layoutY="31.0" style="-fx-font-size: 20px; -fx-text-fill: #333; -fx-font-weight: bold;" text="Welcome" />
+       <Label fx:id="welcomeLabel" layoutX="245.0" layoutY="14.0" style="-fx-font-size: 20px; -fx-text-fill: #333; -fx-font-weight: bold;" text="Welcome" />
    
                 <!-- Top 5 Books List -->
-       <Label layoutX="187.0" layoutY="61.0" style="-fx-font-size: 16px; -fx-text-fill: #555;" text="Top 5 Popular Books" />
+       <Label layoutX="216.0" layoutY="44.0" style="-fx-font-size: 16px; -fx-text-fill: #555;" text="Top 5 Popular Books" />
    
                 <!-- Orders and Shopping Cart Section -->
        <HBox alignment="CENTER" layoutX="125.0" layoutY="555.0" prefHeight="25.0" prefWidth="370.0" spacing="15">
@@ -30,16 +29,21 @@
            <Button fx:id="shoppingCartBtn" onAction="#shoppingCartBtnOnAction" style="-fx-background-color: #ff4081; -fx-text-fill: white;" text="Go to Shopping Cart" />
            <Button fx:id="logOutBtn" onAction="#logOutBtnOnAction" style="-fx-background-color: #3f51b5; -fx-text-fill: white;" text="Log out" />
        </HBox>
-      <TableView fx:id="top5table" layoutX="115.0" layoutY="96.0" prefHeight="180.0" prefWidth="370.0">
+      <TableView fx:id="top5table" layoutX="104.0" layoutY="80.0" prefHeight="180.0" prefWidth="370.0">
         <columns>
           <TableColumn fx:id="titleColumn" prefWidth="181.0" text="Title" />
           <TableColumn fx:id="authorColumn" prefWidth="124.0" text="Author" />
             <TableColumn fx:id="salesColumn" prefWidth="64.0" text="Sales" />
         </columns>
       </TableView>
-   
-                <!-- Search Results -->
-       <ListView fx:id="searchResultsListView" layoutX="115.0" layoutY="344.0" prefHeight="89.0" prefWidth="370.0" style="-fx-border-color: #ccc;" />
-      <Button fx:id="addToCartBtn" layoutX="260.0" layoutY="456.0" mnemonicParsing="false" style="-fx-background-color: #ff4081;" text="Add To Cart" textFill="WHITE" />
+      <Button fx:id="addToCartBtn" layoutX="260.0" layoutY="516.0" mnemonicParsing="false" style="-fx-background-color: #ff4081;" text="Add To Cart" textFill="WHITE" />
+      <TableView fx:id="searchTable" layoutX="9.0" layoutY="314.0" prefHeight="180.0" prefWidth="583.0">
+         <columns>
+            <TableColumn fx:id="searchTitle" prefWidth="215.0" text="Title" />
+            <TableColumn fx:id="searchAuthor" minWidth="0.0" prefWidth="157.0" text="Author" />
+            <TableColumn fx:id="searchPrice" prefWidth="168.0" text="Price (AUD)" />
+            <TableColumn fx:id="searchStock" prefWidth="42.0" text="Stock" />
+         </columns>
+      </TableView>
    </children>
 </AnchorPane>

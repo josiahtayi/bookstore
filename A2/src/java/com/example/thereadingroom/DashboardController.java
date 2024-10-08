@@ -1,11 +1,15 @@
 package com.example.thereadingroom;
 
 import javafx.beans.Observable;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -14,13 +18,17 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
-public class DashboardController {
+public class DashboardController implements Initializable {
 
     @FXML
     public Label welcomeLabel;
@@ -39,16 +47,35 @@ public class DashboardController {
     @FXML
     private Button searchBtn;
     @FXML
+    private TableView searchTable;
+    @FXML
+    private TableColumn<Book, String> searchTitle;
+    @FXML
+    private TableColumn<Book, String> searchAuthor;
+    @FXML
+    private TableColumn<Book, Integer> searchPrice;
+    @FXML
+    private TableColumn<Book, Integer> searchStock;
+
+
+    @FXML
     private Button logOutBtn;
     @FXML
     private Button shoppingCartBtn;
     @FXML
     private Button addToCartBtn;
 
-    public void initialize() {
+    public void initialize(URL url, ResourceBundle rb) {
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
         salesColumn.setCellValueFactory(new PropertyValueFactory<>("sales"));
+
+        searchTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        searchAuthor.setCellValueFactory(new PropertyValueFactory<>("author"));
+        searchPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+        searchStock.setCellValueFactory(new PropertyValueFactory<>("stock"));
+
+        searchBooks();
 
         loadTop5Books();
     }
@@ -69,7 +96,7 @@ public class DashboardController {
                 String author = rs.getString("Author");
                 int sales = rs.getInt("Sales");
 
-                top5Books.add(new Book(title, author,0,0,sales));
+                top5Books.add(new Book(title, author, 0, 0, sales));
             }
             top5table.setItems(top5Books);
             rs.close();
@@ -79,28 +106,59 @@ public class DashboardController {
         } finally {
             dbcon.closeLink();
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
+    public void searchBooks() {
+        DBConnection dbcon = new DBConnection();
+        Connection connection = dbcon.openLink();
+        ObservableList<Book> BooksList = FXCollections.observableArrayList();
+
+        String query = "SELECT Title, Author, Price, Stock FROM Books";
+
+        try {
+
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                String title = rs.getString("Title");
+                String author = rs.getString("Author");
+                int price = rs.getInt("Price");
+                int stock = rs.getInt("Stock");
+                //populate the book observable list
+                BooksList.add(new Book(title, author, price, stock, 0));
+            }
+            searchTable.setItems(BooksList);
+
+            //create filtered list
+            FilteredList<Book> filteredList = new FilteredList<>(BooksList, b -> true);
+            searchField.textProperty().addListener(observable, oldValue, newValue) -> {
+                filteredList.setPredicate(book -> {
+                    if (newValue.isEmpty() || newValue.isBlank() || newValue == true) {
+                        return true;
+                    }
+                    String keyword = newValue.toLowercase();
+                    if (book.getTitle().toLowerCase().contains(keyword) || book.getAuthor().toLowerCase().contains(keyword)) {
+                        return true; //filter list should change
+                    } else
+                        return false;
+                });
+            });
+
+            SortedList<Book> sortedList = new SortedList<>(filteredList);
+
+            sortedList.comparatorProperty().bind(searchTable.comparatorProperty());
+            searchTable.setItems(sortedList);
 
 
+
+        } catch (
+                SQLException e) {
+            Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, e);
+            e.printStackTrace();
+            e.getCause();
+        }
+    }
 
 
     public void setWelcomeLabel(String username) {
@@ -127,6 +185,9 @@ public class DashboardController {
             e.getCause();
         }
     }
+//Todo c
+//
+// add the search function
 
 
     public void shoppingCartBtnOnAction(ActionEvent actionEvent) {
@@ -145,7 +206,6 @@ public class DashboardController {
             e.getCause();
         }
     }
-
 
 }
 
