@@ -14,7 +14,7 @@
                 <!-- Search for Books -->
        <HBox alignment="CENTER" layoutX="125.0" layoutY="273.0" spacing="10">
            <TextField fx:id="searchField" prefWidth="250" promptText="Search for books..." style="-fx-background-color: #f9f9f9; -fx-border-color: #ccc;" />
-           <Button fx:id="searchBtn" prefHeight="25.0" prefWidth="68.0" style="-fx-background-color: #3f51b5; -fx-text-fill: white;" text="Search" />
+         <Button fx:id="addToCartBtn" mnemonicParsing="false" onAction="#addToCartBtn" style="-fx-background-color: #ff4081;" text="Add To Cart" textFill="WHITE" />
        </HBox>
    
                    <!-- Greeting Message -->
@@ -36,7 +36,6 @@
             <TableColumn fx:id="salesColumn" prefWidth="64.0" text="Sales" />
         </columns>
       </TableView>
-      <Button fx:id="addToCartBtn" layoutX="260.0" layoutY="516.0" mnemonicParsing="false" style="-fx-background-color: #ff4081;" text="Add To Cart" textFill="WHITE" />
       <TableView fx:id="searchTable" layoutX="9.0" layoutY="314.0" prefHeight="180.0" prefWidth="583.0">
          <columns>
             <TableColumn fx:id="searchTitle" prefWidth="215.0" text="Title" />

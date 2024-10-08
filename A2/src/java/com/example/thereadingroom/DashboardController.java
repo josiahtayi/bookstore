@@ -30,6 +30,8 @@ import java.util.logging.Logger;
 
 public class DashboardController implements Initializable {
 
+    private ObservableList<ShoppingCart> cartItems = FXCollections.observableArrayList();
+
     @FXML
     public Label welcomeLabel;
     @FXML
@@ -64,6 +66,7 @@ public class DashboardController implements Initializable {
     private Button shoppingCartBtn;
     @FXML
     private Button addToCartBtn;
+
 
     public void initialize(URL url, ResourceBundle rb) {
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -151,7 +154,6 @@ public class DashboardController implements Initializable {
             searchTable.setItems(sortedList);
 
 
-
         } catch (
                 SQLException e) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, e);
@@ -162,8 +164,33 @@ public class DashboardController implements Initializable {
 
     public void addToCartBtn(ActionEvent actionEvent) {
 
+        Book selectedBook = (Book) searchTable.getSelectionModel().getSelectedItem();
 
+        if (selectedBook != null) {
+            ShoppingCart inCart = cartItems.stream()
+                    .filter(cartItem -> cartItem.getTitle().equals(selectedBook.getTitle()))
+                    .findFirst()
+                    .orElse(null);
 
+            if (inCart != null) {
+                inCart.setQuantity(inCart.getQuantity() + 1);
+            } else {
+                cartItems.add(new ShoppingCart(selectedBook.getTitle(), selectedBook.getPrice(), 1));
+            }
+
+            System.out.println("Added to cart" + selectedBook.getTitle());
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle(selectedBook.getTitle() + " Added To Cart");
+            alert.setHeaderText(null);
+            alert.setContentText(selectedBook.getTitle() + " Added To Cart");
+            alert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("No Book Selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please Select a Book");
+            alert.showAndWait();
+        }
     }
 
 
@@ -175,6 +202,7 @@ public class DashboardController implements Initializable {
     public void logOutBtnOnAction(ActionEvent actionEvent) {
         Stage stage = (Stage) logOutBtn.getScene().getWindow();
         stage.close();
+
         showLogin();
 
     }
@@ -191,18 +219,22 @@ public class DashboardController implements Initializable {
             e.getCause();
         }
     }
-//Todo c
-//
-// add the search function
-
 
     public void shoppingCartBtnOnAction(ActionEvent actionEvent) {
         openShoppingCart();
+        Stage stage = (Stage) shoppingCartBtn.getScene().getWindow();
+        stage.close();
     }
 
     public void openShoppingCart() {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("ShoppingCart.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ShoppingCart.fxml"));
+            Parent root = loader.load();
+
+            CartController cartController = loader.getController();
+            cartController.setCartItems(cartItems);
+
+
             Stage shoppingCart = new Stage();
             shoppingCart.initStyle(StageStyle.UNDECORATED);
             shoppingCart.setScene(new Scene(root, 520, 400));

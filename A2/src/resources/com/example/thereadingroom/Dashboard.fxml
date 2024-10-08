@@ -14,7 +14,7 @@
                 <!-- Search for Books -->
        <HBox alignment="CENTER" layoutX="125.0" layoutY="273.0" spacing="10">
            <TextField fx:id="searchField" prefWidth="250" promptText="Search for books..." style="-fx-background-color: #f9f9f9; -fx-border-color: #ccc;" />
-         <Button fx:id="addToCartBtn" mnemonicParsing="false" style="-fx-background-color: #ff4081;" text="Add To Cart" textFill="WHITE" />
+         <Button fx:id="addToCartBtn" mnemonicParsing="false" onAction="#addToCartBtn" style="-fx-background-color: #ff4081;" text="Add To Cart" textFill="WHITE" />
        </HBox>
    
                    <!-- Greeting Message -->
