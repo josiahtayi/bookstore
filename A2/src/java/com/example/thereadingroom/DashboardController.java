@@ -132,12 +132,12 @@ public class DashboardController implements Initializable {
 
             //create filtered list
             FilteredList<Book> filteredList = new FilteredList<>(BooksList, b -> true);
-            searchField.textProperty().addListener(observable, oldValue, newValue) -> {
+            searchField.textProperty().addListener((observable, oldValue, newValue) -> {
                 filteredList.setPredicate(book -> {
-                    if (newValue.isEmpty() || newValue.isBlank() || newValue == true) {
+                    if (newValue == null || newValue.isEmpty() || newValue.isBlank()) {
                         return true;
                     }
-                    String keyword = newValue.toLowercase();
+                    String keyword = newValue.toLowerCase();
                     if (book.getTitle().toLowerCase().contains(keyword) || book.getAuthor().toLowerCase().contains(keyword)) {
                         return true; //filter list should change
                     } else
