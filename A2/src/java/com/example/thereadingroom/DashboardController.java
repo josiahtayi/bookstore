@@ -160,6 +160,12 @@ public class DashboardController implements Initializable {
         }
     }
 
+    public void addToCartBtn(ActionEvent actionEvent) {
+
+
+
+    }
+
 
     public void setWelcomeLabel(String username) {
         welcomeLabel.setText("Welcome, " + username + "!");
