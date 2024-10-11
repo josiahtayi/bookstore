@@ -2,10 +2,12 @@ package com.example.thereadingroom;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
@@ -56,12 +58,12 @@ public class CheckoutController {
         //check if the expiry is a later date
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yy");
         try {
-            LocalDate expDate = LocalDate.parse("01/" + cardExp, formatter);
-            if (expDate.isBefore(LocalDate.now())){
+            YearMonth expDate = YearMonth.parse(cardExp, formatter);
+            if (expDate.isBefore(YearMonth.now())){
                 checkoutStatus.setText("Card Expiry must be a later Date");
             }
         } catch(DateTimeParseException e) {
-            checkoutStatus.setText("Invalid Format. Use MM/yy format");
+            checkoutStatus.setText("Invalid Format. Use MM/YY format");
             return false;
         }
 
@@ -72,7 +74,12 @@ public class CheckoutController {
 
     public void checkoutBtnOnAction(ActionEvent event) {
         if (cardVerification()){
-            String orderNumber = "ORDN" + System.currentTimeMillis();
+            String orderNumber = "TRR" + System.currentTimeMillis();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Order Confirmation");
+            alert.setHeaderText(null);
+            alert.setContentText("Order number: " + orderNumber);
+            alert.showAndWait();
         }
 
     }

@@ -38,27 +38,34 @@ public class CartController implements Initializable {
     private ObservableList<ShoppingCart> cartItems;
 
 
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-    cartTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
-    cartPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
-    cartQty.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+        cartTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
+        cartPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+        cartQty.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
 
     }
-    public void setCartItems(ObservableList<ShoppingCart> cartItems){
+
+    public void setCartItems(ObservableList<ShoppingCart> cartItems) {
         this.cartItems = cartItems;
         cartTable.setItems(cartItems);
     }
 
-    public void handleRemoveBook(ActionEvent actionEvent) {
+    public void doRemoveBook(ActionEvent actionEvent) {
+        ShoppingCart selectedItem = (ShoppingCart) cartTable.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+            cartItems.remove(selectedItem);
+            cartTable.refresh();
+        } else {
+            showAlert(Alert.AlertType.ERROR, "No item Selected", "Please select an item to remove");
+        }
     }
 
-    public void handleUpdateQuantity(ActionEvent actionEvent) {
+    public void doUpdateQuantity(ActionEvent actionEvent) {
     }
 
-    public void checkOutBtn (ActionEvent actionEvent) {
+    public void checkOutBtn(ActionEvent actionEvent) {
     }
 
 
@@ -72,8 +79,6 @@ public class CartController implements Initializable {
 
             DashboardController dashboardController = loader.getController();
 
-
-
             Stage dashboardStage = new Stage();
             dashboardStage.setScene(new Scene(root, 800, 600)); // Adjust the size as needed
             dashboardStage.show();
@@ -83,11 +88,18 @@ public class CartController implements Initializable {
 
     }
 
-
     public void handleCheckout(ActionEvent actionEvent) {
     }
 
     public void setCartLabel(String username) {
         cartLabel.setText(username + "'s Cart");
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

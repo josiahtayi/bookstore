@@ -23,14 +23,14 @@
            </TableView>
          <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
             <children>
-                  <Button fx:id="removeBook" onAction="#handleRemoveBook" style="-fx-background-color: #ff4081; -fx-text-fill: white;" text="Remove Book" />
-                  <Button fx:id="updateBtn" onAction="#handleUpdateQuantity" style="-fx-background-color: #3f51b5; -fx-text-fill: white;" text="Update Quantity" />
+                  <Button fx:id="removeBook" onAction="#doRemoveBook" style="-fx-background-color: #ff4081;" text="Remove Book" textFill="WHITE" />
+                  <Button fx:id="updateBtn" onAction="#doUpdateQuantity" style="-fx-background-color: #3f51b5;" text="Update Quantity" textFill="WHITE" />
             </children>
          </HBox>
       
                        <!-- Proceed to Checkout -->
-           <Button fx:id="checkOutBtn" onAction="#handleCheckout" prefWidth="150" style="-fx-background-color: #ff4081; -fx-text-fill: white;" text="Proceed to Checkout" />
+           <Button fx:id="checkOutBtn" onAction="#handleCheckout" prefWidth="150" style="-fx-background-color: lime;" text="Proceed to Checkout" textFill="WHITE" />
        </VBox>
-      <Button fx:id="backBtn" layoutX="10.0" layoutY="364.0" mnemonicParsing="false" onAction="#backBtnOnAction" text="Back" />
+      <Button fx:id="backBtn" layoutX="10.0" layoutY="364.0" mnemonicParsing="false" onAction="#backBtnOnAction" style="-fx-background-color: red;" text="Back" textFill="WHITE" />
    </children>
 </AnchorPane>
