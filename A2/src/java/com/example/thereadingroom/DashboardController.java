@@ -1,7 +1,5 @@
 package com.example.thereadingroom;
 
-import javafx.beans.Observable;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -16,8 +14,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
-import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -27,9 +23,9 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 public class DashboardController implements Initializable {
 
+    private String username;
     private ObservableList<ShoppingCart> cartItems = FXCollections.observableArrayList();
 
     @FXML
@@ -58,8 +54,6 @@ public class DashboardController implements Initializable {
     private TableColumn<Book, Integer> searchPrice;
     @FXML
     private TableColumn<Book, Integer> searchStock;
-
-
     @FXML
     private Button logOutBtn;
     @FXML
@@ -67,6 +61,9 @@ public class DashboardController implements Initializable {
     @FXML
     private Button addToCartBtn;
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public void initialize(URL url, ResourceBundle rb) {
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -223,6 +220,7 @@ public class DashboardController implements Initializable {
     public void shoppingCartBtnOnAction(ActionEvent actionEvent) {
         openShoppingCart();
         Stage stage = (Stage) shoppingCartBtn.getScene().getWindow();
+
         stage.close();
     }
 
@@ -233,6 +231,8 @@ public class DashboardController implements Initializable {
 
             CartController cartController = loader.getController();
             cartController.setCartItems(cartItems);
+            String username = this.username;
+            cartController.setCartLabel(username);
 
 
             Stage shoppingCart = new Stage();

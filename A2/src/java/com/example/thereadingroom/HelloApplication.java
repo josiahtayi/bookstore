@@ -13,7 +13,7 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("Checkout.fxml"));
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setScene(new Scene(root, 600, 600));
         stage.show();

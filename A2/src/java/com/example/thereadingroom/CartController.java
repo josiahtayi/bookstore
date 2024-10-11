@@ -73,6 +73,7 @@ public class CartController implements Initializable {
             DashboardController dashboardController = loader.getController();
 
 
+
             Stage dashboardStage = new Stage();
             dashboardStage.setScene(new Scene(root, 800, 600)); // Adjust the size as needed
             dashboardStage.show();
@@ -84,5 +85,9 @@ public class CartController implements Initializable {
 
 
     public void handleCheckout(ActionEvent actionEvent) {
+    }
+
+    public void setCartLabel(String username) {
+        cartLabel.setText(username + "'s Cart");
     }
 }

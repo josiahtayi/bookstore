@@ -9,23 +9,23 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-
-<TitledPane text="The Reading Room" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+<TitledPane text="The Reading Room" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.thereadingroom.CheckoutController">
    <content>
       <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
          <right>
             <AnchorPane prefHeight="400.0" prefWidth="300.0" BorderPane.alignment="CENTER">
                <children>
                   <Label layoutX="113.0" layoutY="42.0" text="Billing Information" />
-                  <TextField layoutX="113.0" layoutY="89.0" />
-                  <TextField layoutX="113.0" layoutY="133.0" />
-                  <TextField layoutX="145.0" layoutY="175.0" prefHeight="25.0" prefWidth="38.0" />
-                  <TextField layoutX="215.0" layoutY="175.0" prefHeight="25.0" prefWidth="48.0" />
+                  <TextField fx:id="CardName" layoutX="113.0" layoutY="89.0" />
+                  <TextField fx:id="CardNumber" layoutX="113.0" layoutY="133.0" />
+                  <TextField fx:id="CardCVV" layoutX="145.0" layoutY="175.0" prefHeight="25.0" prefWidth="38.0" />
+                  <TextField fx:id="CardExp" layoutX="215.0" layoutY="175.0" prefHeight="25.0" prefWidth="48.0" />
                   <Label layoutX="186.0" layoutY="179.0" text="Exp" />
                   <Label layoutX="112.0" layoutY="179.0" text="CVV" />
                   <Label layoutX="31.0" layoutY="93.0" text="Name on Card" />
-                  <Button layoutX="135.0" layoutY="287.0" mnemonicParsing="false" text="Checkout" />
+                  <Button fx:id="CheckoutBtn" layoutX="135.0" layoutY="287.0" mnemonicParsing="false" onAction="#checkoutBtnOnAction" text="Checkout" />
                   <Label layoutX="36.0" layoutY="137.0" text="Card Number" />
+                  <Label fx:id="checkoutStatus" layoutX="122.0" layoutY="238.0" textFill="RED" />
                </children>
             </AnchorPane>
          </right>

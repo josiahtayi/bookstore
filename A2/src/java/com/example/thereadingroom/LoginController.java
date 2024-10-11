@@ -23,7 +23,7 @@ public class LoginController {
     @FXML
     private Button loginBtn;
     @FXML
-    private TextField usernameTF;
+    TextField usernameTF;
     @FXML
     private PasswordField passwordPF;
     @FXML
@@ -114,6 +114,7 @@ public class LoginController {
 
             DashboardController dashboardController = loader.getController();
             dashboardController.setWelcomeLabel(usernameTF.getText());
+            dashboardController.setUsername(usernameTF.getText());
 
             Stage dashboardStage = new Stage();
             dashboardStage.initStyle(StageStyle.UNDECORATED);
