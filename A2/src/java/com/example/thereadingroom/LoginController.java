@@ -109,17 +109,27 @@ public class LoginController {
 
     public void openDashBoard() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Dashboard.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("EditProfile.fxml"));
             Parent root = loader.load();
 
-            DashboardController dashboardController = loader.getController();
-            dashboardController.setWelcomeLabel(usernameTF.getText());
-            dashboardController.setUsername(usernameTF.getText());
+            ProfileController profileController = loader.getController();
+            profileController.setUsernameLbl(usernameTF.getText());
 
-            Stage dashboardStage = new Stage();
-            dashboardStage.initStyle(StageStyle.UNDECORATED);
-            dashboardStage.setScene(new Scene(root, 600, 600));
-            dashboardStage.show();
+            Stage profileStage = new Stage();
+            profileStage.initStyle(StageStyle.UNDECORATED);
+            profileStage.setScene(new Scene(root, 600, 600));
+            profileStage.show();
+
+
+
+//            DashboardController dashboardController = loader.getController();
+//            dashboardController.setWelcomeLabel(usernameTF.getText());
+//            dashboardController.setUsername(usernameTF.getText());
+
+//            Stage dashboardStage = new Stage();
+//            dashboardStage.initStyle(StageStyle.UNDECORATED);
+//            dashboardStage.setScene(new Scene(root, 600, 600));
+//            dashboardStage.show();
         } catch (Exception e) {
             e.printStackTrace();
             e.getCause();

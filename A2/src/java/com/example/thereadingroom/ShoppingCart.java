@@ -15,12 +15,12 @@ public class ShoppingCart {
         this.quantity = quantity;
         this.price = price;
     }
+
     public ShoppingCart(String title, double price, int quantity) {
         this.title = title;
         this.price = price;
         this.quantity = quantity;
     }
-
 
     // Getters and Setters
     public String getTitle() {
@@ -54,4 +54,14 @@ public class ShoppingCart {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+    public void increaseQty(){
+        this.quantity++;
+    }
+
+    public void decreaseQty(){
+
+        this.quantity--;
+    }
+
 }

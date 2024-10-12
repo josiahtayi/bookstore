@@ -3,6 +3,7 @@ package com.example.thereadingroom;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -22,9 +23,11 @@ public class CheckoutController {
     @FXML
     private TextField CardCVV;
     @FXML
-    private TextField checkoutBtn;
+    private Button checkoutBtn;
     @FXML
     private Label checkoutStatus;
+    @FXML
+    private Label billTotal;
 
 
     public void initialize() {
@@ -71,6 +74,11 @@ public class CheckoutController {
         return true;
 
     }
+
+    public void setBillTotal(double total) {
+        billTotal.setText(String.format("Total: $%.2f", total));
+    }
+
 
     public void checkoutBtnOnAction(ActionEvent event) {
         if (cardVerification()){

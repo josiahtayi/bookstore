@@ -8,9 +8,6 @@ public class DBConnection {
     public static Connection DBLink;
 
     public Connection openLink() {
-        String databaseName = "";
-        String databaseUser = "";
-        String databasePassword = "";
         String databaseURL = "jdbc:sqlite:TheDatabase.db";
 
 

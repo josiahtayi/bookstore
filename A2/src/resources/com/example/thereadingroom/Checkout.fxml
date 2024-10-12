@@ -6,22 +6,22 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.thereadingroom.CheckoutController">
    <center>
       <AnchorPane BorderPane.alignment="CENTER">
          <children>
             <Label layoutX="251.0" layoutY="14.0" text="Billing Information" />
-            <TextField fx:id="CardName" layoutX="255.0" layoutY="61.0" prefHeight="30.0" prefWidth="200.0" />
-            <TextField fx:id="CardNumber" layoutX="255.0" layoutY="102.0" prefHeight="30.0" prefWidth="200.0" />
-            <TextField fx:id="CardCVV" layoutX="255.0" layoutY="146.0" prefHeight="30.0" prefWidth="40.0" />
-            <TextField fx:id="CardExp" layoutX="415.0" layoutY="144.0" prefHeight="30.0" prefWidth="40.0" />
-            <Label layoutX="355.0" layoutY="153.0" text="Exp:" />
-            <Label layoutX="207.0" layoutY="151.0" text="CVV:" />
-            <Label layoutX="164.0" layoutY="65.0" text="Name on Card" />
-            <Button fx:id="CheckoutBtn" layoutX="164.0" layoutY="202.0" mnemonicParsing="false" onAction="#checkoutBtnOnAction" prefHeight="50.0" prefWidth="300.0" text="Checkout" />
-            <Label layoutX="171.0" layoutY="108.0" text="Card Number" />
+            <TextField fx:id="CardName" layoutX="241.0" layoutY="132.0" prefHeight="30.0" prefWidth="200.0" />
+            <TextField fx:id="CardNumber" layoutX="241.0" layoutY="173.0" prefHeight="30.0" prefWidth="200.0" />
+            <TextField fx:id="CardCVV" layoutX="241.0" layoutY="217.0" prefHeight="30.0" prefWidth="40.0" />
+            <TextField fx:id="CardExp" layoutX="401.0" layoutY="215.0" prefHeight="30.0" prefWidth="40.0" />
+            <Label layoutX="341.0" layoutY="224.0" text="Exp:" />
+            <Label layoutX="193.0" layoutY="222.0" text="CVV:" />
+            <Label layoutX="150.0" layoutY="136.0" text="Name on Card" />
+            <Button fx:id="CheckoutBtn" layoutX="150.0" layoutY="273.0" mnemonicParsing="false" onAction="#checkoutBtnOnAction" prefHeight="50.0" prefWidth="300.0" text="Checkout" />
+            <Label layoutX="157.0" layoutY="179.0" text="Card Number" />
             <Label fx:id="checkoutStatus" layoutX="217.0" layoutY="210.0" textFill="RED" />
+            <Label fx:id="billTotal" layoutX="263.0" layoutY="71.0" text="Shoping Total" />
          </children>
       </AnchorPane>
    </center>
