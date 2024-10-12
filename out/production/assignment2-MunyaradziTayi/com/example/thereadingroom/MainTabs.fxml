@@ -15,7 +15,7 @@
         <!-- Account Management Tab -->
         <Tab closable="false" text="Account Management">
             <content>
-                <fx:include source="AccountManagementTab.fxml" />
+                <fx:include source="EditProfile.fxml" />
             </content>
         </Tab>
 
