@@ -1,6 +1,6 @@
 package com.example.thereadingroom;
 
-import javafx.collections.FXCollections;
+
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,13 +8,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-
+import java.text.SimpleDateFormat;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
+
 
 public class CheckoutController {
 
@@ -106,10 +107,12 @@ public class CheckoutController {
             alert.setContentText("Order number: " + orderNumber);
             alert.showAndWait();
 
+            String orderDate = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
+
             Orders newOrder = new Orders();
             newOrder.setOrder_id(orderNumber);
-            newOrder.setOrder_date(new Date());
-            newOrder.setCustomer_name(username);
+            newOrder.setOrder_date(orderDate);
+            newOrder.setUsername(username);
             newOrder.setOrder_total(total);
 
             StringBuilder descriptionBuilder = new StringBuilder();
@@ -138,7 +141,7 @@ public class CheckoutController {
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, order.getOrder_id());
             ps.setString(2, username);
-            ps.setDate(3, order.getOrder_date());
+            ps.setString(3, order.getOrder_date());
             ps.setDouble(4, order.getOrder_total());
             ps.setString(5, order.getOrder_description());
 

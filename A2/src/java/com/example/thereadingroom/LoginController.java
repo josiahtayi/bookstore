@@ -117,7 +117,6 @@ public class LoginController {
             dashboardController.setWelcomeLabel(SessionManager.getInstance().getUsername());
 
 
-
             FXMLLoader loader1 = new FXMLLoader(getClass().getResource("Checkout.fxml"));
             Parent root1 = loader1.load();
             CheckoutController checkoutController = loader1.getController();

@@ -33,7 +33,7 @@ public class DashboardController implements Initializable {
     @FXML
     public Label welcomeLabel;
     @FXML
-    public ListView searchResultsListView;
+    public ListView<Book> searchResultsListView;
     @FXML
     private TextField searchField;
     @FXML
@@ -47,7 +47,7 @@ public class DashboardController implements Initializable {
     @FXML
     private Button searchBtn;
     @FXML
-    private TableView searchTable;
+    private TableView<Book> searchTable;
     @FXML
     private TableColumn<Book, String> searchTitle;
     @FXML
@@ -157,8 +157,7 @@ public class DashboardController implements Initializable {
             searchTable.setItems(sortedList);
 
 
-        } catch (
-                SQLException e) {
+        } catch (SQLException e) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, e);
             e.printStackTrace();
             e.getCause();
