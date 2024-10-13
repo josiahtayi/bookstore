@@ -33,6 +33,7 @@ public class LoginController {
         if (!usernameTF.getText().isBlank() && !passwordPF.getText().isBlank()) {
             if (validateLogin()) {
                 openDashBoard();
+                SessionManager.getInstance().setUsername(usernameTF.getText());
                 Stage stage = (Stage) loginBtn.getScene().getWindow();
                 stage.hide();
             } else {
@@ -113,8 +114,8 @@ public class LoginController {
             Parent root = loader.load();
 
             DashboardController dashboardController = loader.getController();
-            dashboardController.setWelcomeLabel(usernameTF.getText());
-            dashboardController.setUsername(usernameTF.getText());
+            dashboardController.setWelcomeLabel(SessionManager.getInstance().getUsername());
+
 
 
             FXMLLoader loader1 = new FXMLLoader(getClass().getResource("Checkout.fxml"));

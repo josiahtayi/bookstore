@@ -34,7 +34,8 @@ public class CheckoutController {
     private Label billTotal;
     private ObservableList<ShoppingCart> cartItems;
     private double total;
-    private String username;
+    String username = SessionManager.getInstance().getUsername();
+
 
 
     public void initialize() {
@@ -136,23 +137,26 @@ public class CheckoutController {
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, order.getOrder_id());
-            ps.setString(2, order.getCustomer_name());
+            ps.setString(2, username);
             ps.setDate(3, order.getOrder_date());
             ps.setDouble(4, order.getOrder_total());
             ps.setString(5, order.getOrder_description());
 
+            int rowsAffected = ps.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Order inserted successfully");
+            } else {
+                System.out.println("Order insertion failed");
+            }
         } catch (Exception e) {
             e.printStackTrace();
             e.getCause();
         }
     }
 
-
     public double findTotal(double total) {
         this.total = total;
         return total;
     }
-
-
 }
 
