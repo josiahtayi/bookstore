@@ -25,7 +25,7 @@
    
                 <!-- Orders and Shopping Cart Section -->
        <HBox alignment="CENTER" layoutX="125.0" layoutY="555.0" prefHeight="25.0" prefWidth="370.0" spacing="15">
-           <Button style="-fx-background-color: #ffca28; -fx-text-fill: black;" text="View Orders" />
+           <Button fx:id="viewOrdersBtn" onAction="#showOrders" style="-fx-background-color: #ffca28; -fx-text-fill: black;" text="View Orders" />
            <Button fx:id="shoppingCartBtn" onAction="#shoppingCartBtnOnAction" style="-fx-background-color: #ff4081; -fx-text-fill: white;" text="Go to Shopping Cart" />
            <Button fx:id="logOutBtn" onAction="#logOutBtnOnAction" style="-fx-background-color: #3f51b5; -fx-text-fill: white;" text="Log out" />
        </HBox>
@@ -36,13 +36,14 @@
             <TableColumn fx:id="salesColumn" prefWidth="64.0" text="Sales" />
         </columns>
       </TableView>
-      <TableView fx:id="searchTable" layoutX="9.0" layoutY="314.0" prefHeight="180.0" prefWidth="583.0">
+      <TableView fx:id="searchTable" layoutX="-1.0" layoutY="314.0" prefHeight="180.0" prefWidth="600.0">
          <columns>
-            <TableColumn fx:id="searchTitle" prefWidth="215.0" text="Title" />
-            <TableColumn fx:id="searchAuthor" minWidth="0.0" prefWidth="157.0" text="Author" />
-            <TableColumn fx:id="searchPrice" prefWidth="168.0" text="Price (AUD)" />
-            <TableColumn fx:id="searchStock" prefWidth="42.0" text="Stock" />
+            <TableColumn fx:id="searchTitle" prefWidth="313.0" text="Title" />
+            <TableColumn fx:id="searchAuthor" minWidth="0.0" prefWidth="155.0" text="Author" />
+            <TableColumn fx:id="searchPrice" prefWidth="72.0" text="Price (AUD)" />
+            <TableColumn fx:id="searchStock" prefWidth="59.0" text="Stock" />
          </columns>
       </TableView>
+      <Button fx:id="editProfile" layoutX="518.0" layoutY="17.0" mnemonicParsing="false" onAction="#showProfile" text="Edit Profile" />
    </children>
 </AnchorPane>

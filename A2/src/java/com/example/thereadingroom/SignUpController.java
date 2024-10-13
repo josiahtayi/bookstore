@@ -92,6 +92,6 @@ public class SignUpController {
 
     public void exitBtnOnAction(ActionEvent e) {
         Stage stage = (Stage) exitBtn.getScene().getWindow();
-        stage.close();
+        stage.hide();
     }
 }

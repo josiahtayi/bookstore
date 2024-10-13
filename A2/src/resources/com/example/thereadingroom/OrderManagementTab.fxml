@@ -6,18 +6,19 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #3f51b5;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.thereadingroom.OrderController">
+<AnchorPane fx:id="showProfile" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #3f51b5;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.thereadingroom.OrderController">
     <children>
-        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="228.0" layoutY="14.0" text="Your Orders" textFill="WHITE" />
-        <TableView layoutX="110.0" layoutY="32.0" prefHeight="200.0" prefWidth="300.0">
+        <Label fx:id="orderNameLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="228.0" layoutY="14.0" text="Your Orders" textFill="WHITE" />
+        <TableView fx:id="ordersTable" layoutX="110.0" layoutY="32.0" prefHeight="200.0" prefWidth="300.0">
             <columns>
-                <TableColumn prefWidth="75.0" text="Items" />
-                <TableColumn prefWidth="75.0" text="Quantity" />
-                <TableColumn prefWidth="75.0" text="Price" />
-                <TableColumn prefWidth="75.0" text="Date" />
+                <TableColumn fx:id="itemsColumn" prefWidth="75.0" text="Items" />
+                <TableColumn fx:id="qtyColumn" prefWidth="75.0" text="Quantity" />
+                <TableColumn fx:id="priceColumn" prefWidth="75.0" text="Price" />
+                <TableColumn fx:id="dateColumn" prefWidth="75.0" text="Date" />
             </columns>
         </TableView>
-        <Button layoutX="110.0" layoutY="286.0" mnemonicParsing="false" style="-fx-background-color: #ff4081;" text="Export all Orders" />
-        <Button layoutX="272.0" layoutY="286.0" mnemonicParsing="false" style="-fx-background-color: #ff4081;" text="Export Selected Orders" textAlignment="CENTER" />
+        <Button fx:id="exportAllBtn" layoutX="110.0" layoutY="286.0" mnemonicParsing="false" onAction="#exportAll" style="-fx-background-color: #ff4081;" text="Export all Orders" />
+        <Button fx:id="exportSelBtn" layoutX="272.0" layoutY="286.0" mnemonicParsing="false" onAction="#exportSelected" style="-fx-background-color: #ff4081;" text="Export Selected Orders" textAlignment="CENTER" />
+      <Button fx:id="backBtn" layoutX="21.0" layoutY="286.0" mnemonicParsing="false" onAction="#backToDashboard" text="Back" />
     </children>
 </AnchorPane>

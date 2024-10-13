@@ -109,21 +109,24 @@ public class CartController implements Initializable {
 
     public void goToCheckout(ActionEvent actionEvent) {
         Stage stage = (Stage) backBtn.getScene().getWindow();
-        stage.close();
+        stage.hide();
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Checkout.fxml"));
             Parent root = loader.load();
 
             CheckoutController checkoutController = loader.getController();
+
             double total = calculateTotal();
             checkoutController.setBillTotal(total);
+            checkoutController.findTotal(total);
+            checkoutController.setCartItems(cartItems);
 
             Stage checkoutStage = new Stage();
             checkoutStage.setScene(new Scene(root, 800, 600));
             checkoutStage.show();
         } catch (Exception e) {
-            e.getCause();
+            e.printStackTrace();
         }
     }
 
@@ -142,7 +145,7 @@ public class CartController implements Initializable {
 
     public void backBtnOnAction(ActionEvent actionEvent) {
         Stage stage = (Stage) backBtn.getScene().getWindow();
-        stage.close();
+        stage.hide();
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Dashboard.fxml"));
@@ -150,9 +153,6 @@ public class CartController implements Initializable {
 
             DashboardController dashboardController = loader.getController();
 
-            Stage dashboardStage = new Stage();
-            dashboardStage.setScene(new Scene(root, 800, 600)); // Adjust the size as needed
-            dashboardStage.show();
         } catch (Exception e) {
             e.printStackTrace();
         }

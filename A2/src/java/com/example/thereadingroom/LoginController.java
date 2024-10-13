@@ -34,7 +34,7 @@ public class LoginController {
             if (validateLogin()) {
                 openDashBoard();
                 Stage stage = (Stage) loginBtn.getScene().getWindow();
-                stage.close();
+                stage.hide();
             } else {
                 loginMessageLabel.setText("Invalid username or password. Please try again.");
                 passwordPF.clear();
@@ -47,7 +47,7 @@ public class LoginController {
 
     public void exitBtnOnAction(ActionEvent e) {
         Stage stage = (Stage) exitBtn.getScene().getWindow();
-        stage.close();
+        stage.hide();
     }
 
     public void signUpBtnOnAction(ActionEvent e) {
@@ -109,27 +109,23 @@ public class LoginController {
 
     public void openDashBoard() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("EditProfile.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Dashboard.fxml"));
             Parent root = loader.load();
 
-            ProfileController profileController = loader.getController();
-            profileController.setUsernameLbl(usernameTF.getText());
-
-            Stage profileStage = new Stage();
-            profileStage.initStyle(StageStyle.UNDECORATED);
-            profileStage.setScene(new Scene(root, 600, 600));
-            profileStage.show();
+            DashboardController dashboardController = loader.getController();
+            dashboardController.setWelcomeLabel(usernameTF.getText());
+            dashboardController.setUsername(usernameTF.getText());
 
 
+            FXMLLoader loader1 = new FXMLLoader(getClass().getResource("Checkout.fxml"));
+            Parent root1 = loader1.load();
+            CheckoutController checkoutController = loader1.getController();
+            checkoutController.setUsername(usernameTF.getText());
 
-//            DashboardController dashboardController = loader.getController();
-//            dashboardController.setWelcomeLabel(usernameTF.getText());
-//            dashboardController.setUsername(usernameTF.getText());
-
-//            Stage dashboardStage = new Stage();
-//            dashboardStage.initStyle(StageStyle.UNDECORATED);
-//            dashboardStage.setScene(new Scene(root, 600, 600));
-//            dashboardStage.show();
+            Stage dashboardStage = new Stage();
+            dashboardStage.initStyle(StageStyle.UNDECORATED);
+            dashboardStage.setScene(new Scene(root, 600, 600));
+            dashboardStage.show();
         } catch (Exception e) {
             e.printStackTrace();
             e.getCause();

@@ -1,20 +1,20 @@
 package com.example.thereadingroom;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Orders {
 
-    private int order_id;
+    private String order_id;
     private String customer_name;
-    private Date order_date;
+    private Date order_date; // Now explicitly java.sql.Date
     private double order_total;
     private String order_description;
 
-    public int getOrder_id() {
+    public String getOrder_id() {
         return order_id;
     }
 
-    public void setOrder_id(int order_id) {
+    public void setOrder_id(String order_id) {
         this.order_id = order_id;
     }
 
@@ -30,8 +30,13 @@ public class Orders {
         return order_date;
     }
 
-    public void setOrder_date(Date order_date) {
-        this.order_date = order_date;
+    public void setOrder_date(java.util.Date order_date) {
+        // Convert java.util.Date to java.sql.Date if needed
+        if (order_date instanceof java.sql.Date) {
+            this.order_date = (java.sql.Date) order_date;
+        } else {
+            this.order_date = new java.sql.Date(order_date.getTime());
+        }
     }
 
     public double getOrder_total() {

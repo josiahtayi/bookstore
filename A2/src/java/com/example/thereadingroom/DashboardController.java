@@ -14,6 +14,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -60,6 +62,10 @@ public class DashboardController implements Initializable {
     private Button shoppingCartBtn;
     @FXML
     private Button addToCartBtn;
+    @FXML
+    private Button editProfile;
+    @FXML
+    private Button viewOrdersBtn;
 
     public void setUsername(String username) {
         this.username = username;
@@ -199,7 +205,6 @@ public class DashboardController implements Initializable {
     public void logOutBtnOnAction(ActionEvent actionEvent) {
         Stage stage = (Stage) logOutBtn.getScene().getWindow();
         stage.close();
-
         showLogin();
 
     }
@@ -207,10 +212,11 @@ public class DashboardController implements Initializable {
     public void showLogin() {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
-            Stage signUpStage = new Stage();
-            signUpStage.initStyle(StageStyle.UNDECORATED);
-            signUpStage.setScene(new Scene(root, 520, 400));
-            signUpStage.show();
+            Stage loginStage = new Stage();
+            loginStage.initStyle(StageStyle.UNDECORATED);
+            loginStage.setScene(new Scene(root, 520, 400));
+            loginStage.show();
+
         } catch (Exception e) {
             e.printStackTrace();
             e.getCause();
@@ -221,7 +227,7 @@ public class DashboardController implements Initializable {
         openShoppingCart();
         Stage stage = (Stage) shoppingCartBtn.getScene().getWindow();
 
-        stage.close();
+        stage.hide();
     }
 
     public void openShoppingCart() {
@@ -242,6 +248,40 @@ public class DashboardController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
             e.getCause();
+        }
+    }
+
+    public void showOrders() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("OrderManagementTab.fxml"));
+            Parent root = loader.load();
+            String username = this.username;
+            OrderController orderController = loader.getController();
+            orderController.setOrderUsername(username);
+
+            Stage profileStage = new Stage();
+            profileStage.initStyle(StageStyle.UNDECORATED);
+            profileStage.setScene(new Scene(root, 600, 600));
+            profileStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void showProfile() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("EditProfile.fxml"));
+            Parent root = loader.load();
+            String username = this.username;
+            ProfileController profileController = loader.getController();
+            profileController.setUsernameLbl(username);
+
+            Stage profileStage = new Stage();
+            profileStage.initStyle(StageStyle.UNDECORATED);
+            profileStage.setScene(new Scene(root, 600, 600));
+            profileStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
