@@ -110,26 +110,41 @@ public class LoginController {
 
     public void openDashBoard() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Dashboard.fxml"));
-            Parent root = loader.load();
+            FXMLLoader loader;
+            Parent root;
 
-            DashboardController dashboardController = loader.getController();
-            dashboardController.setWelcomeLabel(SessionManager.getInstance().getUsername());
+            if ("admin".equalsIgnoreCase(usernameTF.getText())) {
+                // Load the admin dashboard
+                loader = new FXMLLoader(getClass().getResource("AdminDashboard.fxml"));
+                root = loader.load();
 
+                AdminController adminController = loader.getController();
+                adminController.setWelcomeLabel(usernameTF.getText());
 
-            FXMLLoader loader1 = new FXMLLoader(getClass().getResource("Checkout.fxml"));
-            Parent root1 = loader1.load();
-            CheckoutController checkoutController = loader1.getController();
-            checkoutController.setUsername(usernameTF.getText());
+            } else {
+                // Load the user dashboard
+                loader = new FXMLLoader(getClass().getResource("Dashboard.fxml"));
+                root = loader.load();
 
+                DashboardController userController = loader.getController();
+                userController.setWelcomeLabel("Welcome, " + usernameTF.getText());
+
+                // Load and initialize the checkout controller
+                FXMLLoader checkoutLoader = new FXMLLoader(getClass().getResource("Checkout.fxml"));
+                Parent checkoutRoot = checkoutLoader.load();
+                CheckoutController checkoutController = checkoutLoader.getController();
+                checkoutController.setUsername(usernameTF.getText());
+            }
+
+            // Set up and display the dashboard stage
             Stage dashboardStage = new Stage();
             dashboardStage.initStyle(StageStyle.UNDECORATED);
             dashboardStage.setScene(new Scene(root, 600, 600));
             dashboardStage.show();
+
         } catch (Exception e) {
             e.printStackTrace();
-            e.getCause();
         }
-
     }
+
 }
