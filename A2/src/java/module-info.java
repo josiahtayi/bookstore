@@ -5,6 +5,6 @@ module main.java.com.example.thereadingroom {
     requires org.xerial.sqlitejdbc;
 
 
-    opens com.example.thereadingroom to javafx.fxml;
-    exports com.example.thereadingroom;
+    opens theReadingRoom to javafx.fxml;
+    exports theReadingRoom;
 }
