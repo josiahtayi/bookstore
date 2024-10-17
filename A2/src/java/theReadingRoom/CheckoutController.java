@@ -50,7 +50,6 @@ public class CheckoutController {
 
     public void initialize() {
         this.username = SessionManager.getInstance().getUsername();
-
     }
 
     public boolean cardVerification() {
@@ -133,10 +132,46 @@ public class CheckoutController {
             // add the order to the database
             insertOrder(newOrder);
             updateBookInventory(cartItems);
+            updateUserCartStatus();
         } else {
             checkoutStatus.setText("Card verification failed. Please try again.");
         }
     }
+
+    public void updateUserCartStatus(){
+        DBConnection dbcon = new DBConnection();
+        Connection connection = dbcon.openLink();
+
+        String query = "Update UserCart SET Status = 1 WHERE Username = ?";
+
+        try(PreparedStatement psmt = connection.prepareStatement(query)){
+            psmt.setString(1, username);
+            int rowsAffected = psmt.executeUpdate();
+            if(rowsAffected>0){
+                System.out.println("Status updated");
+            } else {
+                System.out.println("Status not updated");
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+
+        String deleteRows = "DELETE FROM UserCart WHERE Username = ? AND Status = 1";
+
+        try(PreparedStatement psmt = connection.prepareStatement(deleteRows)){
+            psmt.setString(1, username);
+            int rowsAffected = psmt.executeUpdate();
+            if(rowsAffected>0){
+                System.out.println("Status updated");
+            } else {
+                System.out.println("Status not updated");
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     public void insertOrder(Orders order) {
         DBConnection dbcon = new DBConnection();
@@ -180,8 +215,6 @@ public class CheckoutController {
         }
 
     }
-
-
 
     public double findTotal(double total) {
         this.total = total;

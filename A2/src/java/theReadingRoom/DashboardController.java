@@ -13,8 +13,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
@@ -108,6 +106,7 @@ public class DashboardController implements Initializable {
             dbcon.closeLink();
         }
     }
+
     public void searchBooks() {
         DBConnection dbcon = new DBConnection();
         Connection connection = dbcon.openLink();
@@ -150,9 +149,10 @@ public class DashboardController implements Initializable {
 
     public void addToCartBtn(ActionEvent actionEvent) {
         Book selectedBook = searchTable.getSelectionModel().getSelectedItem();
+
         if (selectedBook != null) {
             // Ask user for quantity
-            TextInputDialog dialog = new TextInputDialog("1");
+            TextInputDialog dialog = new TextInputDialog("");
             dialog.setTitle("Add to Cart");
             dialog.setHeaderText("Specify the quantity of " + selectedBook.getTitle());
             dialog.setContentText("Quantity:");
@@ -181,7 +181,9 @@ public class DashboardController implements Initializable {
                         }
                     } else {
                         // Add new item to cart
-                        cartItems.add(new ShoppingCart(selectedBook.getTitle(), selectedBook.getPrice(), quantity));
+                        ShoppingCart newItem = new ShoppingCart(selectedBook.getTitle(), selectedBook.getAuthor(), quantity, selectedBook.getPrice());
+                        cartItems.add(newItem);
+                        saveToDB(newItem);
                     }
                     showAlert(selectedBook.getTitle() + " added to cart with quantity: " + quantity);
                 } catch (NumberFormatException e) {
@@ -192,6 +194,26 @@ public class DashboardController implements Initializable {
             showAlert("Please select a book.");
         }
     }
+
+    private void saveToDB(ShoppingCart cartIem) {
+        DBConnection dbcon = new DBConnection();
+        Connection connection = dbcon.openLink();
+
+        String query = "INSERT INTO UserCart (Username, Title, Author, Price, Quantity, Status) VALUES (?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement psmt = connection.prepareStatement(query)) {
+            psmt.setString(1, this.username);
+            psmt.setString(2, cartIem.getTitle());
+            psmt.setString(3, cartIem.getAuthor());
+            psmt.setDouble(4, cartIem.getPrice());
+            psmt.setInt(5, cartIem.getQuantity());
+            psmt.setBoolean(6, false);
+            psmt.executeUpdate();
+        } catch (SQLException e) {
+            e.getCause();
+            System.out.println("Error saving the cart");
+        }
+    }
+
 
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -207,7 +229,6 @@ public class DashboardController implements Initializable {
             loader = new FXMLLoader(getClass().getResource("ShoppingCart.fxml"));
             root = loader.load();
             CartController cartController = loader.getController();
-            cartController.setCartItems(cartItems);
             cartController.setStockCheckCallback(this::checkStockAvailability);
             stage = (Stage) shoppingCartBtn.getScene().getWindow();
             // Create and set up the new stage for order management
@@ -218,11 +239,13 @@ public class DashboardController implements Initializable {
             e.getCause();
         }
     }
+
     // Callback method to verify stock availability
     private boolean checkStockAvailability(ShoppingCart item) {
         int availableStock = getStockForBook(item.getTitle());
         return item.getQuantity() <= availableStock;
     }
+
     private int getStockForBook(String title) {
         DBConnection dbcon = new DBConnection();
         Connection connection = dbcon.openLink();
@@ -241,6 +264,7 @@ public class DashboardController implements Initializable {
         }
         return stock;
     }
+
     public void showOrders(ActionEvent actionEvent) {
         try {
             stage = (Stage) viewOrdersBtn.getScene().getWindow();
@@ -256,6 +280,7 @@ public class DashboardController implements Initializable {
             showAlert("Error loading orders. Please try again.");
         }
     }
+
     public void showProfile(ActionEvent actionEvent) {
         try {
             stage = (Stage) editProfile.getScene().getWindow();
@@ -270,6 +295,7 @@ public class DashboardController implements Initializable {
             e.printStackTrace();
         }
     }
+
     public void showLogin(ActionEvent actionEvent) {
         try {
             stage = (Stage) logOutBtn.getScene().getWindow();

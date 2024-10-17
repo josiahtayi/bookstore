@@ -24,7 +24,7 @@ public class ShoppingCart {
         this.status = status;
     }
 
-    public ShoppingCart(String title, double price, int quantity) {
+    public ShoppingCart(String title, int quantity, double price) {
         this.title = title;
         this.price = price;
         this.quantity = quantity;
@@ -51,7 +51,7 @@ public class ShoppingCart {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
