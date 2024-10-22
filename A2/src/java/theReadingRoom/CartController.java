@@ -40,8 +40,8 @@ public class CartController implements Initializable {
     private Button backBtn;
     @FXML
     private Button checkOutBtn;
-
     private ObservableList<ShoppingCart> cartItems = FXCollections.observableArrayList();
+    private final Connection connection = DBConnection.openLink();
     private Function<ShoppingCart, Boolean> stockCheckCallback;
 
     @Override
@@ -50,20 +50,14 @@ public class CartController implements Initializable {
         cartTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         cartPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         cartQty.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-
         // Load the username and set it on the cart label
         this.username = SessionManager.getInstance().getUsername();
         cartLabel.setText(username + "'s Cart");
-
         // Load cart items from the database
         loadCartItemsFromDatabase();
     }
 
-
     public void loadCartItemsFromDatabase() {
-        DBConnection dbcon = new DBConnection();
-        Connection connection = dbcon.openLink();
-
         if (connection == null) {
             System.out.println("Database connection failed.");
             return;
@@ -74,7 +68,6 @@ public class CartController implements Initializable {
             pstmt.setString(1, this.username);
             pstmt.setBoolean(2, false); // Load only items with Status = FALSE
             ResultSet resultSet = pstmt.executeQuery();
-
             while (resultSet.next()) {
                 String title = resultSet.getString("Title");
                 double price = resultSet.getDouble("Price");
@@ -82,7 +75,6 @@ public class CartController implements Initializable {
                 ShoppingCart cartItem = new ShoppingCart(title, quantity, price);
                 loadedCartItems.add(cartItem);
             }
-
             System.out.println("Loaded items: " + loadedCartItems.size());
             setCartItems(loadedCartItems);
             cartTable.refresh();
@@ -90,17 +82,15 @@ public class CartController implements Initializable {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Database Error", "Could not load cart items from database.");
         } finally {
-            dbcon.closeLink();
+            DBConnection.closeLink();
         }
     }
-
 
     public void setCartItems(ObservableList<ShoppingCart> cartItems) {
         this.cartItems = cartItems;
         cartTable.setItems(cartItems);
         setTotal();
     }
-
 
     public void setTotal() {
         double total = 0.0;
@@ -109,23 +99,19 @@ public class CartController implements Initializable {
                 total += cart.getPrice() * cart.getQuantity();
             }
         }
-        cartTotal.setText(String.format("Total: $%.2f", total));
+        cartTotal.setText("Total: AU$" + total);
     }
 
-
     public void doRemoveBook(ActionEvent actionEvent) {
-        DBConnection dbcon = new DBConnection();
-        Connection connection = dbcon.openLink();
-
         ShoppingCart selectedItem = (ShoppingCart) cartTable.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
             cartItems.remove(selectedItem);
             String query = "DELETE FROM UserCart WHERE Username = ? AND Title = ?";
-            try(PreparedStatement pstmt = connection.prepareStatement(query)) {
+            try (PreparedStatement pstmt = connection.prepareStatement(query)) {
                 pstmt.setString(1, username);
                 pstmt.setString(2, selectedItem.getTitle());
                 pstmt.executeUpdate();
-            } catch (SQLException e){
+            } catch (SQLException e) {
                 e.printStackTrace();
                 System.out.println("Database Error");
             }
@@ -141,8 +127,6 @@ public class CartController implements Initializable {
         if (selectedItem != null) {
             selectedItem.setQuantity(selectedItem.getQuantity() + 1);
             updateItemInDB(selectedItem);
-
-
             cartTable.refresh();
             setTotal();
         } else {
@@ -154,9 +138,7 @@ public class CartController implements Initializable {
         ShoppingCart selectedItem = cartTable.getSelectionModel().getSelectedItem();
         if (selectedItem != null && selectedItem.getQuantity() > 1) {
             selectedItem.setQuantity(selectedItem.getQuantity() - 1);
-
             updateItemInDB(selectedItem);
-
             cartTable.refresh();
             setTotal();
         } else {
@@ -164,22 +146,18 @@ public class CartController implements Initializable {
         }
     }
 
-    public void updateItemInDB(ShoppingCart cartItem){
-       DBConnection dbcon = new DBConnection();
-       Connection connection = dbcon.openLink();
-
-       String query = "UPDATE UserCart SET Quantity = ? WHERE Username = ? AND Title = ?";
-       try (PreparedStatement psmt = connection.prepareStatement(query)){
-           psmt.setInt(1, cartItem.getQuantity());
-           psmt.setString(2, this.username);
-           psmt.setString(3, cartItem.getTitle());
-           psmt.executeUpdate();
-       } catch (SQLException e){
-           e.printStackTrace();
-       }
-
-
-
+    public void updateItemInDB(ShoppingCart cartItem) {
+        String query = "UPDATE UserCart SET Quantity = ? WHERE Username = ? AND Title = ?";
+        try (PreparedStatement psmt = connection.prepareStatement(query)) {
+            psmt.setInt(1, cartItem.getQuantity());
+            psmt.setString(2, this.username);
+            psmt.setString(3, cartItem.getTitle());
+            psmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBConnection.closeLink();
+        }
     }
 
     public void goToCheckout(ActionEvent actionEvent) {
@@ -196,18 +174,15 @@ public class CartController implements Initializable {
             FXMLLoader loader;
             loader = new FXMLLoader(getClass().getResource("Checkout.fxml"));
             root = loader.load();
-
             CheckoutController checkoutController = loader.getController();
             double total = calculateTotal();
             checkoutController.setBillTotal(total);
             checkoutController.findTotal(total);
             checkoutController.setCartItems(cartItems);
-
             // Create and set up the new stage for checkout
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -227,11 +202,9 @@ public class CartController implements Initializable {
         try {
             stage = (Stage) backBtn.getScene().getWindow();
             FXMLLoader loader;
-
             loader = new FXMLLoader(getClass().getResource("Dashboard.fxml"));
             root = loader.load();
-
-            // Create and set up the new stage for order management
+            // Create and set up the new stage for the dashboard
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();

@@ -18,14 +18,12 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
-import java.text.SimpleDateFormat;
 
 public class OrderController {
     private Stage stage;
     private Scene scene;
     private Parent root;
     private String username;
-
     @FXML
     private Label orderNameLabel;
     @FXML
@@ -44,8 +42,8 @@ public class OrderController {
     private Button exportSelBtn;
     @FXML
     private Button backBtn;
-
-    private ObservableList<Orders> orderItems = FXCollections.observableArrayList();
+    private final ObservableList<Orders> orderItems = FXCollections.observableArrayList();
+    private final Connection connection = DBConnection.openLink();
 
     public void initialize() {
         // Set up the table columns
@@ -53,29 +51,21 @@ public class OrderController {
         descColumn.setCellValueFactory(new PropertyValueFactory<>("order_description"));
         totalColumn.setCellValueFactory(new PropertyValueFactory<>("order_total"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("order_date"));
-
         // Set the order name label
         String username = SessionManager.getInstance().getUsername();
         orderNameLabel.setText(username + "'s Orders");
-
         // Load the orders for the user
         loadOrders();
     }
 
-
     public void loadOrders() {
-        DBConnection dbcon = new DBConnection();
-        Connection connection = dbcon.openLink();
-
         String query = "SELECT * FROM Orders WHERE Username = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(query);
             ps.setString(1, SessionManager.getInstance().getUsername());
             ResultSet rs = ps.executeQuery();
-
             // Clear the previous orders
             orderItems.clear();
-
             while (rs.next()) {
                 String orderID = rs.getString("Order_ID");
                 String username = rs.getString("Username");
@@ -86,18 +76,15 @@ public class OrderController {
                 // Add to the observable list
                 orderItems.add(new Orders(orderID, username, date, total, description));
             }
-
             // Set items to the table
             ordersTable.setItems(orderItems);
         } catch (SQLException e) {
             e.printStackTrace();
             // Consider showing an alert here
         } finally {
-            dbcon.closeLink();
+            DBConnection.closeLink();
         }
     }
-
-
 
     @FXML
     private void exportSelected(ActionEvent actionEvent) {
@@ -126,15 +113,12 @@ public class OrderController {
         }
     }
 
-
     public void backToDashboard(ActionEvent event) {
         try {
             stage = (Stage) backBtn.getScene().getWindow();
             FXMLLoader loader;
-
             loader = new FXMLLoader(getClass().getResource("Dashboard.fxml"));
             root = loader.load();
-
             // Create and set up the new stage for order management
             scene = new Scene(root);
             stage.setScene(scene);

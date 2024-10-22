@@ -13,13 +13,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class DashboardController implements Initializable {
     private Stage stage;
@@ -63,7 +62,7 @@ public class DashboardController implements Initializable {
     private Button editProfile;
     @FXML
     private Button viewOrdersBtn;
-
+    private final Connection connection = DBConnection.openLink();
 
     public void initialize(URL url, ResourceBundle rb) {
         //the top 5 books
@@ -75,17 +74,14 @@ public class DashboardController implements Initializable {
         searchAuthor.setCellValueFactory(new PropertyValueFactory<>("author"));
         searchPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
         searchStock.setCellValueFactory(new PropertyValueFactory<>("stock"));
-
         this.username = SessionManager.getInstance().getUsername();
         welcomeLabel.setText("Welcome, " + username + "!");
-
         searchBooks();
         loadTop5Books();
     }
 
     public void loadTop5Books() {
-        DBConnection dbcon = new DBConnection();
-        Connection connection = dbcon.openLink();
+        Connection connection = DBConnection.openLink();
         ObservableList<Book> top5Books = FXCollections.observableArrayList();
         String query = "SELECT Title, Author, Sales FROM Books ORDER BY sales DESC LIMIT 5";
         try {
@@ -103,13 +99,12 @@ public class DashboardController implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            dbcon.closeLink();
+            DBConnection.closeLink();
         }
     }
 
     public void searchBooks() {
-        DBConnection dbcon = new DBConnection();
-        Connection connection = dbcon.openLink();
+        Connection connection = DBConnection.openLink();
         ObservableList<Book> BooksList = FXCollections.observableArrayList();
         String query = "SELECT Title, Author, Stock, Price  FROM Books";
         try {
@@ -120,36 +115,36 @@ public class DashboardController implements Initializable {
                 String author = rs.getString("Author");
                 int price = rs.getInt("Price");
                 int stock = rs.getInt("Stock");
-                //populate the book observable list
+                //fill the book observable list
                 BooksList.add(new Book(title, author, stock, price, 0));
             }
             searchTable.setItems(BooksList);
-            //create filtered list
+            //create a filtered list
             FilteredList<Book> filteredList = new FilteredList<>(BooksList, b -> true);
+            //add a listener to search the filtered list based on user's input
             searchField.textProperty().addListener((observable, oldValue, newValue) -> {
                 filteredList.setPredicate(book -> {
                     if (newValue == null || newValue.isEmpty() || newValue.isBlank()) {
-                        return true;
+                        return true; //this shows all the books if the search bar is empty
                     }
+                    // this matches the keyword with either the title or the author
                     String keyword = newValue.toLowerCase();
-                    if (book.getTitle().toLowerCase().contains(keyword) || book.getAuthor().toLowerCase().contains(keyword)) {
-                        return true; //filter list should change
-                    } else return false;
+                    return book.getTitle().toLowerCase().contains(keyword) || book.getAuthor().toLowerCase().contains(keyword); //filter list should change
                 });
             });
-            SortedList<Book> sortedList = new SortedList<>(filteredList);
+            SortedList<Book> sortedList = new SortedList<>(filteredList); // created a new sorted list object
             sortedList.comparatorProperty().bind(searchTable.comparatorProperty());
             searchTable.setItems(sortedList);
         } catch (SQLException e) {
-            Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, e);
             e.printStackTrace();
             e.getCause();
+        } finally {
+            DBConnection.closeLink();
         }
     }
 
     public void addToCartBtn(ActionEvent actionEvent) {
         Book selectedBook = searchTable.getSelectionModel().getSelectedItem();
-
         if (selectedBook != null) {
             // Ask user for quantity
             TextInputDialog dialog = new TextInputDialog("");
@@ -195,10 +190,9 @@ public class DashboardController implements Initializable {
         }
     }
 
+    // this method saves the contents of the cart to a database table
     private void saveToDB(ShoppingCart cartIem) {
-        DBConnection dbcon = new DBConnection();
-        Connection connection = dbcon.openLink();
-
+        Connection connection = DBConnection.openLink();
         String query = "INSERT INTO UserCart (Username, Title, Author, Price, Quantity, Status) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement psmt = connection.prepareStatement(query)) {
             psmt.setString(1, this.username);
@@ -206,21 +200,15 @@ public class DashboardController implements Initializable {
             psmt.setString(3, cartIem.getAuthor());
             psmt.setDouble(4, cartIem.getPrice());
             psmt.setInt(5, cartIem.getQuantity());
-            psmt.setBoolean(6, false);
+            psmt.setBoolean(6, false); //this sets a status column to false which corresponds to is
+            //the cart has been checked out
             psmt.executeUpdate();
         } catch (SQLException e) {
             e.getCause();
             System.out.println("Error saving the cart");
+        } finally {
+            DBConnection.closeLink();
         }
-    }
-
-
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Information");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 
     public void openShoppingCart(ActionEvent actionEvent) {
@@ -231,7 +219,7 @@ public class DashboardController implements Initializable {
             CartController cartController = loader.getController();
             cartController.setStockCheckCallback(this::checkStockAvailability);
             stage = (Stage) shoppingCartBtn.getScene().getWindow();
-            // Create and set up the new stage for order management
+            // Create and set up the new stage for shopping cart page
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
@@ -247,8 +235,7 @@ public class DashboardController implements Initializable {
     }
 
     private int getStockForBook(String title) {
-        DBConnection dbcon = new DBConnection();
-        Connection connection = dbcon.openLink();
+        Connection connection = DBConnection.openLink();
         int stock = 0;
         String query = "SELECT Stock FROM Books WHERE Title = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -276,7 +263,6 @@ public class DashboardController implements Initializable {
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
             showAlert("Error loading orders. Please try again.");
         }
     }
@@ -307,7 +293,17 @@ public class DashboardController implements Initializable {
             stage.setScene(scene);
             stage.show();
         } catch (Exception e) {
+            e.printStackTrace();
             e.getCause();
         }
+    }
+
+    // shortcut to bring up alerts
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

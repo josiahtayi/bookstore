@@ -12,23 +12,15 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-
-/*
- * TF stands for Text field
+import java.util.Objects;
+/*TF stands for Text field
  * PF stands for password field
  * LBL stands fo label
  * Btn stands for button
- *
- *
- * */
+ */
 
 public class SignUpController {
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
-    private UserDAO userDAO = new UserDAO();
+    private final UserDAO userDAO = new UserDAO();
     @FXML
     private Label CreateLBL;
     @FXML
@@ -60,7 +52,6 @@ public class SignUpController {
     @FXML
     private Label passwordCheck;
 
-
     public void SignUpBtnOnAction(ActionEvent event) {
         if (setPasswordPF.getText().equals(confirmPasswordPF.getText())) {
             // Check if the username exists
@@ -82,7 +73,7 @@ public class SignUpController {
         String fname = FnameTF.getText();
         String lname = LnameTF.getText();
 
-        if (userDAO.registerUser(username,password,fname,lname)){
+        if (userDAO.registerUser(username, password, fname, lname)) {
             signUpMessageLabel.setText("User Registration Successful");
         } else {
             signUpMessageLabel.setText("User Registration Failed");
@@ -90,9 +81,9 @@ public class SignUpController {
     }
 
     public void exitBtnOnAction(ActionEvent e) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("Login.fxml"));
-        stage = (Stage) exitBtn.getScene().getWindow();
-        scene = new Scene(root);
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Login.fxml")));
+        Stage stage = (Stage) exitBtn.getScene().getWindow();
+        Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }

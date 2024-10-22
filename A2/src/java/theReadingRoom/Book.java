@@ -1,13 +1,11 @@
 package theReadingRoom;
 
 public class Book {
-
     private String title;
     private String author;
     private int stock;
     private int price;
     private int sales;
-
 
     public Book(String title, String author, int price, int sales) {
         this.title = title;
@@ -16,7 +14,6 @@ public class Book {
         this.sales = sales;
     }
 
-
     public Book(String title, String author, int stock, int price, int sales) {
         this.title = title;
         this.author = author;
@@ -24,7 +21,6 @@ public class Book {
         this.price = price;
         this.sales = sales;
     }
-
 
     public String getTitle() {
         return title;

@@ -9,8 +9,6 @@ public class DBConnection {
 
     public static Connection openLink() {
         String databaseURL = "jdbc:sqlite:TheDatabase.db";
-
-
         try {
             // add class.forname
             DBLink = DriverManager.getConnection(databaseURL);
@@ -31,5 +29,3 @@ public class DBConnection {
         }
     }
 }
-
-

@@ -1,9 +1,6 @@
 package theReadingRoom;
 
-import java.sql.Date;
-
 public class Orders {
-
     private String order_id;
     private String username;
     private String order_date; // Change to String
@@ -18,9 +15,7 @@ public class Orders {
         this.order_description = order_description;
     }
 
-
     public Orders() {
-
     }
 
     public String getOrder_id() {

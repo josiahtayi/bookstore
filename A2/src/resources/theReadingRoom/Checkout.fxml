@@ -18,7 +18,7 @@
             <Label layoutX="341.0" layoutY="224.0" text="Exp:" />
             <Label layoutX="193.0" layoutY="222.0" text="CVV:" />
             <Label layoutX="150.0" layoutY="136.0" text="Name on Card" />
-            <Button fx:id="CheckoutBtn" layoutX="150.0" layoutY="273.0" mnemonicParsing="false" onAction="#checkoutBtnOnAction" prefHeight="50.0" prefWidth="300.0" text="Checkout" />
+            <Button fx:id="checkoutBtn" layoutX="150.0" layoutY="273.0" mnemonicParsing="false" onAction="#checkoutBtnOnAction" prefHeight="50.0" prefWidth="300.0" text="Checkout" />
             <Label layoutX="157.0" layoutY="179.0" text="Card Number" />
             <Label fx:id="checkoutStatus" layoutX="217.0" layoutY="210.0" textFill="RED" />
             <Label fx:id="billTotal" layoutX="263.0" layoutY="71.0" text="Shoping Total" />

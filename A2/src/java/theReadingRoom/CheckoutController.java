@@ -1,6 +1,5 @@
 package theReadingRoom;
 
-
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,9 +23,6 @@ import java.time.format.DateTimeParseException;
 import java.util.Date;
 
 public class CheckoutController {
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
     private String username;
     @FXML
     private TextField CardName;
@@ -46,20 +42,17 @@ public class CheckoutController {
     private Button backButton;
     private ObservableList<ShoppingCart> cartItems;
     private double total;
-
+    private final Connection connection = DBConnection.openLink();
 
     public void initialize() {
         this.username = SessionManager.getInstance().getUsername();
     }
 
     public boolean cardVerification() {
-
         String cardName = CardName.getText();
         String cardNumber = CardNumber.getText();
         String cardExp = CardExp.getText();
         String cardCVV = CardCVV.getText();
-
-
         if (cardName.isBlank() || cardNumber.isBlank() || cardExp.isBlank() || cardCVV.isBlank()) {
             checkoutStatus.setText("Please Fill in all Fields");
             return false;
@@ -69,13 +62,11 @@ public class CheckoutController {
             checkoutStatus.setText("Please Fill in 16 Digits");
             return false;
         }
-
         //checK the length of the CVV
         if (cardCVV.length() != 3) {
             checkoutStatus.setText("Please Fill in 3 Digits");
             return false;
         }
-
         //check if the expiry is a later date
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yy");
         try {
@@ -87,14 +78,13 @@ public class CheckoutController {
             checkoutStatus.setText("Invalid Format. Use MM/YY format");
             return false;
         }
-
         checkoutStatus.setText("Valid!!");
         return true;
-
     }
 
+    //displays the cart total as text at the bottom of the table
     public void setBillTotal(double total) {
-        billTotal.setText(String.format("Total: $%.2f", total));
+        billTotal.setText("Total: AU$" + total);
     }
 
     public void setCartItems(ObservableList<ShoppingCart> cartItems) {
@@ -102,30 +92,27 @@ public class CheckoutController {
     }
 
     public void checkoutBtnOnAction(ActionEvent event) {
-        String orderNumber = "TRR" + System.currentTimeMillis();
-
+        String orderNumber = "TRR" + System.currentTimeMillis(); // this generates an order number with the prefix The ReadingRoom abbreviated
+        // and the time in milliseconds that the order was placed
         if (cardVerification()) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Order Confirmation");
             alert.setHeaderText(null);
             alert.setContentText("Order number: " + orderNumber);
             alert.showAndWait();
-
+            //stores the order date in a specific format
             String orderDate = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
-
+            // creates a new orders object
             Orders newOrder = new Orders();
             newOrder.setOrder_id(orderNumber);
             newOrder.setOrder_date(orderDate);
             newOrder.setUsername(username);
             newOrder.setOrder_total(total);
-
             StringBuilder descriptionBuilder = new StringBuilder();
-            for (ShoppingCart item : cartItems) { // Now you can use cartItems
-                descriptionBuilder.append(item.getTitle())
-                        .append(" x ")
-                        .append(item.getQuantity());
+            for (ShoppingCart item : cartItems) {
+                descriptionBuilder.append(item.getTitle()).append(" x ").append(item.getQuantity()).append(" x ");
             }
-            if (descriptionBuilder.length() > 0) {
+            if (!descriptionBuilder.isEmpty()) {
                 descriptionBuilder.setLength(descriptionBuilder.length() - 2);
             }
             newOrder.setOrder_description(descriptionBuilder.toString());
@@ -138,56 +125,47 @@ public class CheckoutController {
         }
     }
 
-    public void updateUserCartStatus(){
-        DBConnection dbcon = new DBConnection();
-        Connection connection = dbcon.openLink();
-
+    // this method changes the status column to false, so it will no longer be displayed softer a checkout has completed
+    public void updateUserCartStatus() {
         String query = "Update UserCart SET Status = 1 WHERE Username = ?";
-
-        try(PreparedStatement psmt = connection.prepareStatement(query)){
+        try (PreparedStatement psmt = connection.prepareStatement(query)) {
             psmt.setString(1, username);
             int rowsAffected = psmt.executeUpdate();
-            if(rowsAffected>0){
+            if (rowsAffected > 0) {
                 System.out.println("Status updated");
             } else {
                 System.out.println("Status not updated");
             }
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        //this just deletes the cart item for vibes
         String deleteRows = "DELETE FROM UserCart WHERE Username = ? AND Status = 1";
-
-        try(PreparedStatement psmt = connection.prepareStatement(deleteRows)){
+        try (PreparedStatement psmt = connection.prepareStatement(deleteRows)) {
             psmt.setString(1, username);
             int rowsAffected = psmt.executeUpdate();
-            if(rowsAffected>0){
+            if (rowsAffected > 0) {
                 System.out.println("Status updated");
             } else {
                 System.out.println("Status not updated");
             }
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DBConnection.closeLink();
         }
-
     }
 
-
     public void insertOrder(Orders order) {
-        DBConnection dbcon = new DBConnection();
-        Connection connection = dbcon.openLink();
-
         String sql = "INSERT INTO Orders (Order_ID, Username, Date, Total, Description) Values (?,?,?,?,?)";
-
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, order.getOrder_id());
             ps.setString(2, username);
             ps.setString(3, order.getOrder_date());
             ps.setDouble(4, order.getOrder_total());
             ps.setString(5, order.getOrder_description());
-
             int rowsAffected = ps.executeUpdate();
-            if (rowsAffected > 0) {
+            if (rowsAffected > 0) { //just foe debugging can be removed
                 System.out.println("Order inserted successfully");
             } else {
                 System.out.println("Order insertion failed");
@@ -195,40 +173,39 @@ public class CheckoutController {
         } catch (Exception e) {
             e.printStackTrace();
             e.getCause();
+        } finally {
+            DBConnection.closeLink();
         }
     }
 
-    public void updateBookInventory(ObservableList<ShoppingCart> cartItems){
-        DBConnection dbcon = new DBConnection();
-        Connection connection = dbcon.openLink();
+    public void updateBookInventory(ObservableList<ShoppingCart> cartItems) {
         String query = "UPDATE Books SET Stock  = Stock - ? WHERE Title = ?";
-
-        try (PreparedStatement psmt = connection.prepareStatement(query)){
+        try (PreparedStatement psmt = connection.prepareStatement(query)) {
             for (ShoppingCart item : cartItems) {
                 psmt.setInt(1, item.getQuantity());
                 psmt.setString(2, item.getTitle());
                 psmt.executeUpdate();
             }
             System.out.println("Stock Updated");
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            DBConnection.closeLink();
         }
-
     }
 
-    public double findTotal(double total) {
+    public void findTotal(double total) {
         this.total = total;
-        return total;
     }
 
-    public void backToCart(ActionEvent actionEvent){
+    public void backToCart(ActionEvent actionEvent) {
         try {
             FXMLLoader loader;
             loader = new FXMLLoader(getClass().getResource("ShoppingCart.fxml"));
-            root = loader.load();
-            stage = (Stage) backButton.getScene().getWindow();
+            Parent root = loader.load();
+            Stage stage = (Stage) backButton.getScene().getWindow();
             // Create and set up the new stage for order management
-            scene = new Scene(root);
+            Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
@@ -236,4 +213,3 @@ public class CheckoutController {
         }
     }
 }
-

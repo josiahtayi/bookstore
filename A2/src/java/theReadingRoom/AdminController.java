@@ -10,16 +10,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.sql.*;
 import java.util.Optional;
 
 public class AdminController {
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
-    private String username;
     @FXML
     private Label welcomeLabel;
     @FXML
@@ -40,7 +35,7 @@ public class AdminController {
     private Button decreaseBtn;
     @FXML
     private Button logoutBtn;
-
+    private final Connection connection = DBConnection.openLink();
 
     public void initialize() {
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -49,38 +44,29 @@ public class AdminController {
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         salesColumn.setCellValueFactory(new PropertyValueFactory<>("sales"));
         //gets the username from the session manager
-        this.username = SessionManager.getInstance().getUsername();
+        String username = SessionManager.getInstance().getUsername();
         welcomeLabel.setText("Hello, " + username);
         insertBooks();
     }
 
     public void insertBooks() {
-        DBConnection dbcon = new DBConnection();
-        Connection connection = dbcon.openLink();
         ObservableList<Book> bookInventory = FXCollections.observableArrayList();
-
         String query = "SELECT * FROM Books";
-
         try {
             PreparedStatement psmt = connection.prepareStatement(query);
             ResultSet rs = psmt.executeQuery();
-
             while (rs.next()) {
                 String title = rs.getString("title");
                 String author = rs.getString("author");
                 int stock = rs.getInt("stock");
                 int price = rs.getInt("price");
                 int sales = rs.getInt("sales");
-
                 bookInventory.add(new Book(title, author, stock, price, sales));
             }
             inventoryTable.setItems(bookInventory);
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public void showStockDialog(String action) {
@@ -88,7 +74,6 @@ public class AdminController {
         dialog.setTitle("Stock Update");
         dialog.setHeaderText("Enter the amount to " + action + " in stock");
         dialog.setContentText("Amount:");
-
         Optional<String> result = dialog.showAndWait();
         result.ifPresent(amountStr -> {
             try {
@@ -97,12 +82,9 @@ public class AdminController {
                     showAlert("Please enter a positive number for decrease.");
                     return;
                 }
-
                 // Use Math.abs for positive adjustment and specify true for increase
                 updateStockInDatabase(Math.abs(amount), action.equals("increase"));
-
                 refreshTableView();
-
             } catch (NumberFormatException e) {
                 showAlert("Invalid input! Please enter a valid number.");
                 e.printStackTrace();
@@ -111,16 +93,12 @@ public class AdminController {
     }
 
     private void updateStockInDatabase(int amount, boolean isIncrease) {
-        DBConnection dbcon = new DBConnection();
-        Connection connection = dbcon.openLink();
-
         String sql;
         if (isIncrease) {
             sql = "UPDATE Books SET Stock = stock + ? WHERE Title = ?";
         } else {
             sql = "UPDATE Books SET Stock = stock - ? WHERE Title = ?";
         }
-
         try (PreparedStatement psmt = connection.prepareStatement(sql)) {
             psmt.setInt(1, amount);
             psmt.setString(2, getSelectedTitle());
@@ -134,7 +112,7 @@ public class AdminController {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-
+            e.getCause();
         }
     }
 
@@ -144,7 +122,7 @@ public class AdminController {
     }
 
     private void refreshTableView() {
-       insertBooks();
+        insertBooks();
     }
 
     public void doIncreaseStock(ActionEvent actionEvent) {
@@ -157,15 +135,16 @@ public class AdminController {
 
     public void showLogin(ActionEvent actionEvent) {
         try {
-            stage = (Stage) logoutBtn.getScene().getWindow();
+            Stage stage = (Stage) logoutBtn.getScene().getWindow();
             FXMLLoader loader;
             loader = new FXMLLoader(getClass().getResource("Login.fxml"));
-            root = loader.load();
+            Parent root = loader.load();
             // Create and set up the new stage for login
-            scene = new Scene(root);
+            Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
         } catch (Exception e) {
+            e.printStackTrace();
             e.getCause();
         }
     }

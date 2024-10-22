@@ -16,6 +16,7 @@ public class ShoppingCart {
         this.quantity = quantity;
         this.price = price;
     }
+
     public ShoppingCart(String title, String author, double price, int quantity, boolean status) {
         this.title = title;
         this.author = author;
@@ -66,8 +67,8 @@ public class ShoppingCart {
     public boolean isStatus() {
         return status;
     }
+
     public void setStatus(boolean status) {
         this.status = status;
     }
-
 }

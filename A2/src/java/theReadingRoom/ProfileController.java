@@ -10,15 +10,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-
 public class ProfileController {
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
     private String username;
-    private UserDAO userDAO = new UserDAO();
+    private final UserDAO userDAO = new UserDAO();
     @FXML
     private Label heading;
     @FXML
@@ -42,17 +36,15 @@ public class ProfileController {
     @FXML
     private Button back;
 
-
     public void initialize() {
         this.username = SessionManager.getInstance().getUsername();
-        usernameLbl.setText(username+"'s Profile");
+        usernameLbl.setText(username + "'s Profile");
     }
 
     public void saveChanges(ActionEvent event) {
         String newFName = profileFNameTF.getText();
         String newLName = profileLNameTF.getText();
         String newPassword = profilePasswordTF.getText();
-
         // Use UserDAO to update user profile
         boolean isUpdated = userDAO.updateUserProfile(username, newFName, newLName, newPassword);
         if (isUpdated) {
@@ -70,14 +62,12 @@ public class ProfileController {
 
     public void backToDashboard(ActionEvent event) {
         try {
-            stage = (Stage) back.getScene().getWindow();
+            Stage stage = (Stage) back.getScene().getWindow();
             FXMLLoader loader;
-
             loader = new FXMLLoader(getClass().getResource("Dashboard.fxml"));
-            root = loader.load();
-
-            // Create and set up the new stage for order management
-            scene = new Scene(root);
+            Parent root = loader.load();
+            // Create and set up the new stage for the dashboard
+            Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
         } catch (Exception e) {

@@ -4,6 +4,7 @@ package theReadingRoom;
 public class SessionManager {
     private static SessionManager instance;
     private String username; // variable to store the name of the logged-in user
+
     //default constructor
     private SessionManager() {
     }
@@ -16,10 +17,12 @@ public class SessionManager {
         }
         return instance; //return an instance of the class
     }
+
     //to retrieve the username
     public String getUsername() {
         return username;
     }
+
     // to set the username where needed
     public void setUsername(String username) {
         this.username = username;
