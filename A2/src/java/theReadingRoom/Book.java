@@ -21,6 +21,9 @@ public class Book {
         this.price = price;
         this.sales = sales;
     }
+    public Book(String title){
+        this.title = title;
+    }
 
     public String getTitle() {
         return title;
@@ -60,5 +63,10 @@ public class Book {
 
     public void setSales(int sales) {
         this.sales = sales;
+    }
+
+    @Override
+    public String toString() {
+        return title+" ";
     }
 }

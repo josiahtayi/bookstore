@@ -4,23 +4,76 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="theReadingRoom.ProfileController">
-    <children>
-        <!-- Edit Profile Fields -->
-        <Label fx:id="heading" layoutX="147.0" layoutY="14.0" style="-fx-font-size: 16px; -fx-text-fill: #3f51b5;" text="Edit Profile" />
-        <Label fx:id="profileFName" layoutX="45.0" layoutY="83.0" text="First Name:" />
-        <TextField fx:id="profileFNameTF" layoutX="147.0" layoutY="77.0" prefHeight="30.0" prefWidth="200.0" promptText="Enter First Name" />
-        <Label fx:id="profileLName" layoutX="45.0" layoutY="123.0" text="Last Name:" />
-        <TextField fx:id="profileLNameTF" layoutX="147.0" layoutY="117.0" prefHeight="30.0" prefWidth="200.0" promptText="Enter Last Name" />
-        <Label fx:id="profilePassword" layoutX="49.0" layoutY="166.0" text="Password:" />
-        <PasswordField fx:id="profilePasswordTF" layoutX="147.0" layoutY="160.0" prefHeight="30.0" prefWidth="200.0" promptText="Enter New Password" />
 
-        <!-- Submit Button -->
-        <Button fx:id="profileSave" layoutX="140.0" layoutY="262.4000015258789" onAction="#saveChanges" style="-fx-background-color: #3f51b5; -fx-text-fill: white;" text="Save Changes" />
-      <Button fx:id="back" layoutX="23.0" layoutY="262.0" mnemonicParsing="false" onAction="#backToDashboard" text="Back" />
-      <Label fx:id="usernameLbl" layoutX="210.0" layoutY="40.0" text="Label" />
-      <Button fx:id="profileCancel" layoutX="300.0" layoutY="263.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
-    </children>
-</AnchorPane>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="theReadingRoom.ProfileController">
+   <right>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="375.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+          <children>
+              <!-- Heading -->
+              <Label fx:id="heading" layoutX="115.0" layoutY="14.0" text="Edit Profile">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+      
+                    <!-- Username Label -->
+              <Label fx:id="usernameLbl" layoutX="135.0" layoutY="40.0" style="-fx-font-size: 16px; -fx-text-fill: #3f51b5;" text="Username" />
+      
+                    <!-- First Name Field -->
+              <Label fx:id="profileFName" layoutX="45.0" layoutY="100.0" style="-fx-font-size: 14px;" text="First Name:" />
+              <TextField fx:id="profileFNameTF" layoutX="135.0" layoutY="95.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="225.0" promptText="Enter First Name" />
+      
+                    <!-- Last Name Field -->
+              <Label fx:id="profileLName" layoutX="45.0" layoutY="140.0" style="-fx-font-size: 14px;" text="Last Name:" />
+              <TextField fx:id="profileLNameTF" layoutX="135.0" layoutY="135.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="225.0" promptText="Enter Last Name" />
+      
+                    <!-- Password Field -->
+              <Label fx:id="profilePassword" layoutX="45.0" layoutY="180.0" style="-fx-font-size: 14px;" text="Password:" />
+              <PasswordField fx:id="profilePasswordTF" layoutX="135.0" layoutY="175.0" prefHeight="30.0" prefWidth="225.0" promptText="Enter New Password" />
+      
+                    <!-- Save Changes Button -->
+              <Button fx:id="profileSave" alignment="CENTER" layoutX="65.0" layoutY="270.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#saveChanges" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: green;" text="Save Changes" textFill="WHITE" />
+      
+                    <!-- Back Button -->
+              <Button fx:id="back" layoutX="65.0" layoutY="390.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#backToDashboard" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: red;" text="Back" textFill="WHITE" />
+      
+                    <!-- Cancel Button -->
+              <Button fx:id="profileCancel" layoutX="65.0" layoutY="330.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#cancel" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #3f51b5;" text="Cancel" textFill="WHITE" />
+          </children>
+      </AnchorPane>
+   </right>
+   <left>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="225.0" style="-fx-background-color: #3f51b5;" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="12.5" layoutY="10.0">
+               <image>
+                  <Image url="@The%20Reading%20Room.png" />
+               </image>
+            </ImageView>
+            <Label alignment="CENTER" layoutY="250.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="225.0" text="Reading Room" textFill="WHITE">
+               <font>
+                  <Font name="Verdana" size="24.0" />
+               </font>
+            </Label>
+            <Line endX="225.0" layoutY="250.0" stroke="WHITE" strokeWidth="2.0">
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Line>
+            <Label alignment="CENTER" layoutY="210.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="225.0" text="The" textFill="WHITE">
+               <font>
+                  <Font name="Verdana Italic" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </left>
+</BorderPane>

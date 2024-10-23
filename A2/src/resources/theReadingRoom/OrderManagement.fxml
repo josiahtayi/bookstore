@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="theReadingRoom.OrderController">
+   <right>
+      <AnchorPane fx:id="showProfile" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="375.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+          <children>
+              <Label fx:id="orderNameLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="125.0" layoutY="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" text="Your Orders">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+              <TableView fx:id="ordersTable" layoutY="60.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="375.0">
+                  <columns>
+                      <TableColumn fx:id="descColumn" prefWidth="155.0" text="Description" />
+                      <TableColumn fx:id="orderNum" prefWidth="101.0" text="Order Number" />
+                      <TableColumn fx:id="totalColumn" prefWidth="50.0" text="Total" />
+                      <TableColumn fx:id="dateColumn" prefWidth="68.0" text="Date" />
+                  </columns>
+              </TableView>
+              <Button fx:id="exportAllBtn" layoutX="65.0" layoutY="270.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#exportAll" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #ff4081;" text="Export all Orders" textFill="WHITE" />
+              <Button fx:id="exportSelBtn" layoutX="65.0" layoutY="330.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#exportSelected" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #ff4081;" text="Export Selected Orders" textAlignment="CENTER" textFill="WHITE" />
+            <Button fx:id="backBtn" layoutX="65.0" layoutY="390.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#backToDashboard" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: red;" text="Back" textFill="WHITE" />
+          </children>
+      </AnchorPane>
+   </right>
+   <left>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="225.0" style="-fx-background-color: #3f51b5;" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="12.5" layoutY="10.0">
+               <image>
+                  <Image url="@The%20Reading%20Room.png" />
+               </image>
+            </ImageView>
+            <Line endX="225.0" layoutY="250.0" stroke="WHITE" strokeWidth="2.0">
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Line>
+            <Label alignment="CENTER" layoutY="210.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="225.0" text="The" textFill="WHITE">
+               <font>
+                  <Font name="Verdana Italic" size="24.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutY="250.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="225.0" text="Reading Room" textFill="WHITE">
+               <font>
+                  <Font name="Verdana" size="24.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </left>
+</BorderPane>

@@ -1,49 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="theReadingRoom.DashboardController">
-   <children>
-   
-                <!-- Search for Books -->
-       <HBox alignment="CENTER" layoutX="125.0" layoutY="273.0" spacing="10">
-           <TextField fx:id="searchField" prefWidth="250" promptText="Search for books..." style="-fx-background-color: #f9f9f9; -fx-border-color: #ccc;" />
-         <Button fx:id="addToCartBtn" mnemonicParsing="false" onAction="#addToCartBtn" style="-fx-background-color: #ff4081;" text="Add To Cart" textFill="WHITE" />
-       </HBox>
-   
-                   <!-- Greeting Message -->
-       <Label fx:id="welcomeLabel" layoutX="245.0" layoutY="14.0" style="-fx-font-size: 20px; -fx-text-fill: #333; -fx-font-weight: bold;" text="Welcome" />
-   
-                <!-- Top 5 Books List -->
-       <Label layoutX="216.0" layoutY="44.0" style="-fx-font-size: 16px; -fx-text-fill: #555;" text="Top 5 Popular Books" />
-   
-                <!-- Orders and Shopping Cart Section -->
-       <HBox alignment="CENTER" layoutX="125.0" layoutY="555.0" prefHeight="25.0" prefWidth="370.0" spacing="15">
-           <Button fx:id="viewOrdersBtn" onAction="#showOrders" style="-fx-background-color: #ffca28; -fx-text-fill: black;" text="View Orders" />
-           <Button fx:id="shoppingCartBtn" onAction="#openShoppingCart" style="-fx-background-color: #ff4081; -fx-text-fill: white;" text="Go to Shopping Cart" />
-           <Button fx:id="logOutBtn" onAction="#showLogin" style="-fx-background-color: #3f51b5; -fx-text-fill: white;" text="Log out" />
-       </HBox>
-      <TableView fx:id="top5table" layoutX="104.0" layoutY="80.0" prefHeight="180.0" prefWidth="370.0">
-        <columns>
-          <TableColumn fx:id="titleColumn" prefWidth="181.0" text="Title" />
-          <TableColumn fx:id="authorColumn" prefWidth="124.0" text="Author" />
-            <TableColumn fx:id="salesColumn" prefWidth="64.0" text="Sales" />
-        </columns>
-      </TableView>
-      <TableView fx:id="searchTable" layoutX="-1.0" layoutY="314.0" prefHeight="180.0" prefWidth="600.0">
-         <columns>
-            <TableColumn fx:id="searchTitle" prefWidth="313.0" text="Title" />
-            <TableColumn fx:id="searchAuthor" minWidth="0.0" prefWidth="155.0" text="Author" />
-            <TableColumn fx:id="searchPrice" prefWidth="72.0" text="Price (AUD)" />
-            <TableColumn fx:id="searchStock" prefWidth="59.0" text="Stock" />
-         </columns>
-      </TableView>
-      <Button fx:id="editProfile" layoutX="518.0" layoutY="17.0" mnemonicParsing="false" onAction="#showProfile" text="Edit Profile" />
-   </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="theReadingRoom.DashboardController">
+    <children>
+
+        <!-- Search for Books -->
+        <HBox alignment="CENTER" layoutX="130.0" layoutY="126.0" spacing="10">
+            <TextField fx:id="searchField" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="35.0" prefWidth="250" promptText="Search for books..." style="-fx-background-color: #f1f1f1; -fx-border-color: #3f51b5; -fx-border-radius: 5; -fx-font-size: 14px; -fx-padding: 8;" />
+            <Button fx:id="addToCartBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addToCartBtn" prefHeight="30.0" prefWidth="80.0" style="-fx-background-color: #3f51b5; -fx-border-radius: 5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 5, 0.5, 0, 2);" text="Add To Cart" textFill="WHITE" />
+        </HBox>
+
+        <!-- Greeting Message -->
+        <Label fx:id="welcomeLabel" layoutX="244.0" layoutY="12.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" style="-fx-font-size: 22px; -fx-text-fill: #3f51b5; -fx-font-weight: bold; -fx-font-family: 'Verdana';" text="Welcome" />
+
+        <!-- Top 5 Books List -->
+        <Label layoutX="200.0" layoutY="40.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="200.0" style="-fx-font-size: 18px; -fx-text-fill: #3f51b5; -fx-font-family: 'Verdana';" text="Top 5 Popular Books" />
+
+        <!-- Orders and Shopping Cart Section -->
+        <HBox alignment="CENTER" layoutY="455.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="600.0" spacing="15">
+            <Button fx:id="viewOrdersBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#showOrders" prefHeight="30.0" prefWidth="85.0" style="-fx-background-color: #a1887f; -fx-border-radius: 5; -fx-text-fill: white;" text="View Orders" />
+            <Button fx:id="shoppingCartBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#openShoppingCart" prefHeight="30.0" prefWidth="130.0" style="-fx-background-color: #3f51b5; -fx-text-fill: white; -fx-border-radius: 5;" text="Go to Shopping Cart" />
+            <Button fx:id="logOutBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onAction="#showLogin" prefHeight="30.0" prefWidth="60.0" style="-fx-background-color: red; -fx-text-fill: white; -fx-border-radius: 5;" text="Log Out" />
+        </HBox>
+
+        <!-- Search Results Table -->
+        <TableView fx:id="searchTable" layoutY="169.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="270.0" prefWidth="600.0" style="-fx-background-color: #f1f1f1; -fx-border-color: #d7ccc8; -fx-border-radius: 5;">
+            <columns>
+                <TableColumn fx:id="searchTitle" prefWidth="278.0" style="-fx-font-family: 'Verdana';" text="Title" />
+                <TableColumn fx:id="searchAuthor" minWidth="0.0" prefWidth="176.0" style="-fx-font-family: 'Verdana';" text="Author" />
+                <TableColumn fx:id="searchPrice" prefWidth="86.0" style="-fx-font-family: 'Verdana';" text="Price (AUD)" />
+                <TableColumn fx:id="searchStock" prefWidth="59.0" style="-fx-font-family: 'Verdana';" text="Stock" />
+            </columns>
+        </TableView>
+
+        <!-- Edit Profile Button -->
+        <Button fx:id="editProfile" layoutX="512.0" layoutY="14.0" mnemonicParsing="false" onAction="#showProfile" style="-fx-background-color: #3f51b5; -fx-text-fill: white; -fx-border-radius: 5;" text="Edit Profile" />
+      <Label fx:id="marqueeLabel" layoutX="14.0" layoutY="82.0" textAlignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+
+    </children>
 </AnchorPane>

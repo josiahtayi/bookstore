@@ -12,26 +12,26 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="520.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="theReadingRoom.LoginController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="theReadingRoom.LoginController">
    <left>
-      <AnchorPane prefHeight="407.0" prefWidth="228.0" style="-fx-background-color: #3f51b5;" BorderPane.alignment="CENTER">
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="225.0" style="-fx-background-color: #3f51b5;" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" layoutX="3.0" layoutY="230.0" prefHeight="17.0" prefWidth="227.0" text="Reading Room" textFill="WHITE">
+            <Label alignment="CENTER" layoutY="250.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="225.0" text="Reading Room" textFill="WHITE">
                <font>
                   <Font name="Verdana" size="24.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" layoutX="3.0" layoutY="200.0" prefHeight="17.0" prefWidth="227.0" text="The" textFill="WHITE">
+            <Label alignment="CENTER" layoutY="210.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="225.0" text="The" textFill="WHITE">
                <font>
                   <Font name="Verdana Italic" size="24.0" />
                </font>
             </Label>
-            <Line endX="100.0" layoutX="117.0" layoutY="230.0" startX="-100.0" stroke="WHITE" strokeWidth="2.0">
+            <Line endX="255.0" layoutY="250.0" stroke="WHITE" strokeWidth="2.0">
                <effect>
                   <DropShadow />
                </effect>
             </Line>
-            <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="16.0">
+            <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="12.5" layoutY="10.0">
                <image>
                   <Image url="@The%20Reading%20Room.png" />
                </image>
@@ -40,34 +40,34 @@
       </AnchorPane>
    </left>
    <right>
-      <AnchorPane prefHeight="400.0" prefWidth="332.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="375.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" layoutX="35.0" layoutY="51.0" prefHeight="17.0" prefWidth="227.0" text="Welcome ">
+            <Label alignment="CENTER" layoutX="80.0" layoutY="15.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="225.0" text="Welcome ">
                <font>
                   <Font name="Verdana" size="24.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" layoutX="3.0" layoutY="88.0" prefHeight="30.0" prefWidth="291.0" text="Please Login">
+            <Label alignment="CENTER" layoutX="75.0" layoutY="65.0" prefHeight="30.0" prefWidth="225.0" text="Please Login">
                <font>
                   <Font name="Verdana" size="24.0" />
                </font>
             </Label>
-            <Label layoutX="38.0" layoutY="146.0" text="Username" />
-            <Label layoutX="40.0" layoutY="180.0" text="Password" />
-            <TextField fx:id="usernameTF" layoutX="116.0" layoutY="142.0" promptText="Enter Username" />
-            <PasswordField fx:id="passwordPF" layoutX="116.0" layoutY="176.0" promptText="Enter Password" />
-            <Button fx:id="loginBtn" alignment="CENTER" layoutX="34.0" layoutY="240.0" mnemonicParsing="false" onAction="#loginBtnOnAction" prefHeight="25.0" prefWidth="230.0" style="-fx-background-color: #3f51b5;" text="Login" textFill="WHITE">
+            <Label layoutX="42.0" layoutY="150.0" text="Username" />
+            <Label layoutX="43.0" layoutY="197.0" text="Password" />
+            <TextField fx:id="usernameTF" layoutX="119.0" layoutY="140.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="225.0" promptText="Enter Username" />
+            <PasswordField fx:id="passwordPF" layoutX="118.0" layoutY="192.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="225.0" promptText="Enter Password" />
+            <Button fx:id="loginBtn" alignment="CENTER" layoutX="65.0" layoutY="270.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#loginBtnOnAction" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #3f51b5;" text="Login" textFill="WHITE">
                <font>
                   <Font size="16.0" />
                </font>
             </Button>
-            <Button fx:id="exitBtn" alignment="CENTER" layoutX="34.0" layoutY="351.0" mnemonicParsing="false" onAction="#exitBtnOnAction" prefHeight="25.0" prefWidth="230.0" style="-fx-background-color: red;" text="Exit" textFill="WHITE">
+            <Button fx:id="exitBtn" alignment="CENTER" layoutX="65.0" layoutY="390.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#exitBtnOnAction" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: red;" text="Exit" textFill="WHITE">
                <font>
                   <Font size="16.0" />
                </font>
             </Button>
-            <Label fx:id="loginMessageLabel" alignment="CENTER" layoutX="3.0" layoutY="118.0" prefHeight="17.0" prefWidth="290.0" textAlignment="CENTER" textFill="#c60000" />
-            <Button fx:id="signUpBtn" alignment="CENTER" layoutX="34.0" layoutY="297.0" mnemonicParsing="false" onAction="#signUpBtnOnAction" prefHeight="25.0" prefWidth="230.0" style="-fx-background-color: green;" text="Sign Up" textFill="WHITE">
+            <Label fx:id="loginMessageLabel" alignment="CENTER" layoutY="95.0" prefHeight="20.0" prefWidth="375.0" textAlignment="CENTER" textFill="#c60000" />
+            <Button fx:id="signUpBtn" alignment="CENTER" layoutX="65.0" layoutY="330.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#signUpBtnOnAction" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: green;" text="Sign Up" textFill="WHITE">
                <font>
                   <Font size="16.0" />
                </font>

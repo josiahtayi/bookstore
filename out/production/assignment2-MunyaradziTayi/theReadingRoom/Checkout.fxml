@@ -3,27 +3,79 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="theReadingRoom.CheckoutController">
-   <center>
-      <AnchorPane BorderPane.alignment="CENTER">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="theReadingRoom.CheckoutController">
+   <left>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="225.0" style="-fx-background-color: #3f51b5;" BorderPane.alignment="CENTER">
          <children>
-            <Label layoutX="251.0" layoutY="14.0" text="Billing Information" />
-            <TextField fx:id="CardName" layoutX="241.0" layoutY="132.0" prefHeight="30.0" prefWidth="200.0" />
-            <TextField fx:id="CardNumber" layoutX="241.0" layoutY="173.0" prefHeight="30.0" prefWidth="200.0" />
-            <TextField fx:id="CardCVV" layoutX="241.0" layoutY="217.0" prefHeight="30.0" prefWidth="40.0" />
-            <TextField fx:id="CardExp" layoutX="401.0" layoutY="215.0" prefHeight="30.0" prefWidth="40.0" />
-            <Label layoutX="341.0" layoutY="224.0" text="Exp:" />
-            <Label layoutX="193.0" layoutY="222.0" text="CVV:" />
-            <Label layoutX="150.0" layoutY="136.0" text="Name on Card" />
-            <Button fx:id="CheckoutBtn" layoutX="150.0" layoutY="273.0" mnemonicParsing="false" onAction="#checkoutBtnOnAction" prefHeight="50.0" prefWidth="300.0" text="Checkout" />
-            <Label layoutX="157.0" layoutY="179.0" text="Card Number" />
-            <Label fx:id="checkoutStatus" layoutX="217.0" layoutY="210.0" textFill="RED" />
-            <Label fx:id="billTotal" layoutX="263.0" layoutY="71.0" text="Shoping Total" />
-            <Button fx:id="backButton" layoutX="14.0" layoutY="19.0" mnemonicParsing="false" onAction="#backToCart" text="Back" />
+            <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="12.5" layoutY="20.0">
+               <image>
+                  <Image url="@The%20Reading%20Room.png" />
+               </image>
+            </ImageView>
+            <Line endX="225.0" layoutY="250.0" stroke="WHITE" strokeWidth="2.0">
+               <effect>
+                  <DropShadow />
+               </effect>
+            </Line>
+            <Label alignment="CENTER" layoutY="210.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="225.0" text="The" textFill="WHITE">
+               <font>
+                  <Font name="Verdana Italic" size="24.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutY="250.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="225.0" text="Reading Room" textFill="WHITE">
+               <font>
+                  <Font name="Verdana" size="24.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
-   </center>
+   </left>
+   <right>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="375.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+         <children>
+            <!-- Billing Information Heading -->
+            <Label layoutX="100.0" layoutY="29.0" text="Billing Information">
+               <font>
+                  <Font size="24.0" />
+               </font></Label>
+
+            <!-- Name on Card Field -->
+            <Label layoutX="27.0" layoutY="145.0" style="-fx-font-size: 14px;" text="Name on Card" />
+            <TextField fx:id="CardName" layoutX="135.0" layoutY="140.0" prefHeight="30.0" prefWidth="225.0" promptText="Enter Cardholder's Name" />
+
+            <!-- Card Number Field -->
+            <Label layoutX="30.0" layoutY="185.0" style="-fx-font-size: 14px;" text="Card Number" />
+            <TextField fx:id="CardNumber" layoutX="135.0" layoutY="180.0" prefHeight="30.0" prefWidth="225.0" promptText="Enter Card Number" />
+
+            <!-- CVV and Expiration Fields -->
+            <Label layoutX="85.0" layoutY="230.0" style="-fx-font-size: 14px;" text="CVV:" />
+            <TextField fx:id="CardCVV" layoutX="133.0" layoutY="225.0" prefHeight="30.0" prefWidth="68.0" promptText="CVV" />
+            <Label layoutX="271.0" layoutY="230.0" style="-fx-font-size: 14px;" text="Exp:" />
+            <TextField fx:id="CardExp" layoutX="304.0" layoutY="225.0" prefHeight="30.0" prefWidth="56.0" promptText="MM/YY" />
+
+            <!-- Checkout Button -->
+            <Button fx:id="checkoutBtn" layoutX="65.0" layoutY="320.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#checkoutBtnOnAction" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #3f51b5; -fx-text-fill: white; -fx-font-size: 16px;" text="Checkout" />
+
+            <!-- Shopping Total -->
+            <Label fx:id="billTotal" layoutX="144.0" layoutY="64.0" text="Shopping Total: $">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+
+            <!-- Status Message -->
+            <Label fx:id="checkoutStatus" layoutX="109.0" layoutY="219.0" style="-fx-font-size: 14px;" textFill="RED" />
+
+            <!-- Back Button -->
+            <Button fx:id="backButton" layoutX="65.0" layoutY="390.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#backToCart" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: red; -fx-text-fill: white; -fx-font-size: 14px;" text="Back" />
+         </children>
+      </AnchorPane>
+   </right>
 </BorderPane>

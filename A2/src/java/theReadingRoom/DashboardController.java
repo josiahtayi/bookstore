@@ -1,5 +1,7 @@
 package theReadingRoom;
 
+import javafx.animation.Transition;
+import javafx.animation.TranslateTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -13,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
@@ -25,21 +28,13 @@ public class DashboardController implements Initializable {
     private Scene scene;
     private Parent root;
     private String username;
-    private ObservableList<ShoppingCart> cartItems = FXCollections.observableArrayList();
+    private final ObservableList<ShoppingCart> cartItems = FXCollections.observableArrayList();
     @FXML
     public Label welcomeLabel;
     @FXML
     public ListView<Book> searchResultsListView;
     @FXML
     private TextField searchField;
-    @FXML
-    private TableView<Book> top5table;
-    @FXML
-    private TableColumn<Book, String> titleColumn;
-    @FXML
-    private TableColumn<Book, String> authorColumn;
-    @FXML
-    private TableColumn<Book, Integer> salesColumn;
     @FXML
     private Button searchBtn;
     @FXML
@@ -62,13 +57,12 @@ public class DashboardController implements Initializable {
     private Button editProfile;
     @FXML
     private Button viewOrdersBtn;
+    @FXML
+    private Label marqueeLabel;
+
     private final Connection connection = DBConnection.openLink();
 
     public void initialize(URL url, ResourceBundle rb) {
-        //the top 5 books
-        titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
-        authorColumn.setCellValueFactory(new PropertyValueFactory<>("author"));
-        salesColumn.setCellValueFactory(new PropertyValueFactory<>("sales"));
         // the search table
         searchTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         searchAuthor.setCellValueFactory(new PropertyValueFactory<>("author"));
@@ -78,22 +72,46 @@ public class DashboardController implements Initializable {
         welcomeLabel.setText("Welcome, " + username + "!");
         searchBooks();
         loadTop5Books();
+        startMarquee();
+    }
+
+    private void startMarquee() {
+        // Create a TranslateTransition for the Label
+        TranslateTransition marqueeTransition = new TranslateTransition();
+        // Set the duration for the transition (adjust the speed here)
+        marqueeTransition.setDuration(Duration.seconds(20)); // Adjust this for scrolling speed
+        // Set the starting point (label will start just outside the right side of the window)
+        marqueeTransition.setFromX(599);
+        // Set the ending point (label will exit the screen to the left)
+        marqueeTransition.setToX(-820);
+        // Set the label as the target of the transition
+        marqueeTransition.setNode(marqueeLabel);
+        // Make the animation loop indefinitely
+        marqueeTransition.setCycleCount(TranslateTransition.INDEFINITE);
+        marqueeTransition.setAutoReverse(false);
+        // Start the animation
+        marqueeTransition.play();
+        // Listen for the end of the transition
+        marqueeTransition.setOnFinished(event -> {
+            // Immediately reset the position to the start for continuous scrolling
+            marqueeLabel.setTranslateX(600); // Reset position to the right
+            // Restart the marquee
+            marqueeTransition.play();
+        });
     }
 
     public void loadTop5Books() {
         Connection connection = DBConnection.openLink();
         ObservableList<Book> top5Books = FXCollections.observableArrayList();
-        String query = "SELECT Title, Author, Sales FROM Books ORDER BY sales DESC LIMIT 5";
+        String query = "SELECT Title FROM Books ORDER BY sales DESC LIMIT 5";
         try {
             Statement stmt = connection.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 String title = rs.getString("Title");
-                String author = rs.getString("Author");
-                int sales = rs.getInt("Sales");
-                top5Books.add(new Book(title, author, 0, 0, sales));
+                top5Books.add(new Book(title));
             }
-            top5table.setItems(top5Books);
+            marqueeLabel.setText(top5Books.toString());
             rs.close();
             stmt.close();
         } catch (SQLException e) {
@@ -256,7 +274,7 @@ public class DashboardController implements Initializable {
         try {
             stage = (Stage) viewOrdersBtn.getScene().getWindow();
             FXMLLoader loader;
-            loader = new FXMLLoader(getClass().getResource("OrderManagementTab.fxml"));
+            loader = new FXMLLoader(getClass().getResource("OrderManagement.fxml"));
             root = loader.load();
             // Create and set up the new stage for order management
             scene = new Scene(root);
