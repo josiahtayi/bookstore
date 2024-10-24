@@ -13,6 +13,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -20,9 +21,6 @@ import java.io.IOException;
 import java.sql.*;
 
 public class OrderController {
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
     private String username;
     @FXML
     private Label orderNameLabel;
@@ -88,6 +86,8 @@ public class OrderController {
 
     @FXML
     private void exportSelected(ActionEvent actionEvent) {
+        //todo if i have time//
+
     }
 
     @FXML
@@ -96,31 +96,40 @@ public class OrderController {
     }
 
     public void exportToCSV(ObservableList<Orders> orderItems) throws IOException {
-        File file = new File("Orders.csv");
-        try (FileWriter fw = new FileWriter(file, false)) {
-            fw.write("Order_ID,Username,Date,Total,Description\n");
-            for (Orders r : orderItems) {
-                fw.write(String.format("%s,%s,%s,%.2f,%s\n",
-                        r.getOrder_id(),
-                        r.getUsername(),
-                        r.getOrder_date(),
-                        r.getOrder_total(),
-                        r.getOrder_description()));
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Save Orders");
+        //set the initial directory to the users home directory
+        fc.setInitialDirectory(new File(System.getProperty("user.home")));
+        // add the file type selection
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV file", "*.csv"));
+        // show the dialog box
+        File file = fc.showSaveDialog(new Stage());
+        if (file != null) {
+            try (FileWriter fw = new FileWriter(file)) {
+                fw.write("Order_ID,Username,Date,Total,Description\n");
+                // add the order details to the file
+                for (Orders or : orderItems) {
+                    fw.write((String.format("%s,%s,%s,%.2f,%s\n", or.getOrder_id(),
+                            or.getUsername(),
+                            or.getOrder_date(),
+                            or.getOrder_total(),
+                            or.getOrder_description())));
+                }
+                System.out.println("Orders exported to csv");
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            System.out.println("Orders exported to CSV");
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
     public void backToDashboard(ActionEvent event) {
         try {
-            stage = (Stage) backBtn.getScene().getWindow();
+            Stage stage = (Stage) backBtn.getScene().getWindow();
             FXMLLoader loader;
             loader = new FXMLLoader(getClass().getResource("Dashboard.fxml"));
-            root = loader.load();
+            Parent root = loader.load();
             // Create and set up the new stage for order management
-            scene = new Scene(root);
+            Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
         } catch (Exception e) {

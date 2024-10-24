@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400" prefWidth="533.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/22" fx:controller="theReadingRoom.AdminController">
-    <VBox alignment="CENTER" spacing="10" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="theReadingRoom.AdminController">
+    <VBox alignment="CENTER" layoutX="50.0" layoutY="20.0" prefHeight="346.0" prefWidth="600.0" spacing="10" AnchorPane.bottomAnchor="154.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <!-- Welcome message for the admin user -->
-        <Label fx:id="welcomeLabel" alignment="CENTER" style="-fx-font-size: 18px; font-weight: bold;" text="Welcome, Admin!" />
+        <Label fx:id="welcomeLabel" alignment="CENTER" text="Welcome, Admin!" textFill="#3f51b5">
+         <font>
+            <Font name="Verdana Bold" size="24.0" />
+         </font></Label>
 
         <!-- Books Inventory -->
         <TableView fx:id="inventoryTable" prefHeight="200" prefWidth="500">
@@ -26,11 +25,11 @@
 
         <!-- Stock Management Buttons -->
         <HBox alignment="CENTER" prefHeight="26.0" prefWidth="329.0" spacing="10">
-            <Button fx:id="increaseBtn" onAction="#doIncreaseStock" text="Increase Stock" />
-            <Button fx:id="decreaseBtn" onAction="#doDecreaseStock" text="Decrease Stock" />
+            <Button fx:id="increaseBtn" mnemonicParsing="false" onAction="#doIncreaseStock" style="-fx-background-color: #3f51b5;" text="Increase Stock" textFill="WHITE" />
+            <Button fx:id="decreaseBtn" mnemonicParsing="false" onAction="#doDecreaseStock" style="-fx-background-color: #3f51b5;" text="Decrease Stock" textFill="WHITE" />
         </HBox>
     </VBox>
 
      <!-- Logout Button -->
-     <Button fx:id="logoutBtn" layoutX="220.0" layoutY="349.0" onAction="#showLogin" prefWidth="100" text="Log out" />
+     <Button fx:id="logoutBtn" layoutX="250.0" layoutY="349.0" onAction="#showLogin" prefWidth="100" style="-fx-background-color: red;" text="Log out" textFill="WHITE" />
 </AnchorPane>
