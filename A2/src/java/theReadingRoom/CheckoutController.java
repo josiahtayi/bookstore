@@ -173,8 +173,6 @@ public class CheckoutController {
         } catch (Exception e) {
             e.printStackTrace();
             e.getCause();
-        } finally {
-            DBConnection.closeLink();
         }
     }
 
@@ -189,8 +187,6 @@ public class CheckoutController {
             System.out.println("Stock Updated");
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            DBConnection.closeLink();
         }
     }
 
@@ -208,6 +204,7 @@ public class CheckoutController {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
+            DBConnection.closeLink(); // close the database connection when the scene is closed
         } catch (IOException e) {
             e.getCause();
         }

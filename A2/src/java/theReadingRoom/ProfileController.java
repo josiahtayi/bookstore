@@ -18,6 +18,8 @@ public class ProfileController {
     @FXML
     private Label usernameLbl;
     @FXML
+    private Label warningLbl;
+    @FXML
     private Label profileFName;
     @FXML
     private Label profileLName;
@@ -42,9 +44,17 @@ public class ProfileController {
     }
 
     public void saveChanges(ActionEvent event) {
-        String newFName = profileFNameTF.getText();
-        String newLName = profileLNameTF.getText();
-        String newPassword = profilePasswordTF.getText();
+        String newFName = profileFNameTF.getText().trim();
+        String newLName = profileLNameTF.getText().trim();
+        String newPassword = profilePasswordTF.getText().trim();
+        if (newFName.isEmpty() || newLName.isEmpty() || newPassword.isEmpty()) {
+            warningLbl.setText("Error: Please fill out all fields");
+            profileFNameTF.clear();
+            profileLNameTF.clear();
+            profilePasswordTF.clear();
+            return;
+        }
+
         // Use UserDAO to update user profile
         boolean isUpdated = userDAO.updateUserProfile(username, newFName, newLName, newPassword);
         if (isUpdated) {

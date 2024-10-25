@@ -46,6 +46,7 @@ public class CartController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         // Set up table columns
         cartTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         cartPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
@@ -58,10 +59,6 @@ public class CartController implements Initializable {
     }
 
     public void loadCartItemsFromDatabase() {
-        if (connection == null) {
-            System.out.println("Database connection failed.");
-            return;
-        }
         ObservableList<ShoppingCart> loadedCartItems = FXCollections.observableArrayList();
         String query = "SELECT Title, Price, Quantity FROM UserCart WHERE Username = ? AND Status = ?";
         try (PreparedStatement pstmt = connection.prepareStatement(query)) {
@@ -81,8 +78,6 @@ public class CartController implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Database Error", "Could not load cart items from database.");
-        } finally {
-            DBConnection.closeLink();
         }
     }
 
@@ -155,8 +150,6 @@ public class CartController implements Initializable {
             psmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            DBConnection.closeLink();
         }
     }
 
@@ -198,25 +191,6 @@ public class CartController implements Initializable {
         return total;
     }
 
-    public void backToDashboard(ActionEvent event) {
-        try {
-            stage = (Stage) backBtn.getScene().getWindow();
-            FXMLLoader loader;
-            loader = new FXMLLoader(getClass().getResource("Dashboard.fxml"));
-            root = loader.load();
-            // Create and set up the new stage for the dashboard
-            scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void setCartLabel(String username) {
-        cartLabel.setText(username + "'s Cart");
-    }
-
     public void setStockCheckCallback(Function<ShoppingCart, Boolean> stockCheckCallback) {
         this.stockCheckCallback = stockCheckCallback;
     }
@@ -227,5 +201,20 @@ public class CartController implements Initializable {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+    public void backToDashboard(ActionEvent event) {
+        try {
+            stage = (Stage) backBtn.getScene().getWindow();
+            FXMLLoader loader;
+            loader = new FXMLLoader(getClass().getResource("Dashboard.fxml"));
+            root = loader.load();
+            // Create and set up the new stage for the dashboard
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+            DBConnection.closeLink(); // close the database connection when the scene is closed
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

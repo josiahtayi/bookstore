@@ -68,11 +68,23 @@ public class SignUpController {
     }
 
     public void registerUser() {
-        String username = setUsernameTF.getText();
-        String password = setPasswordPF.getText();
-        String fname = FnameTF.getText();
-        String lname = LnameTF.getText();
-
+        String username = setUsernameTF.getText().trim();
+        String password = setPasswordPF.getText().trim();
+        String fname = FnameTF.getText().trim();
+        String lname = LnameTF.getText().trim();
+        String confirmPassword = confirmPasswordPF.getText().trim();
+        // checks if the username already exists
+        if (userDAO.checkUsernameExists(username)) {
+            passwordCheck.setText("Username already exists. Please choose a different username.");
+            return;
+        }
+        // Check if any fields are empty
+        if (username.isEmpty() || password.isEmpty() || fname.isEmpty() || lname.isEmpty() || confirmPassword.isEmpty()) {
+            passwordCheck.setText("");
+            signUpMessageLabel.setText("Please fill all the fields");
+            return;
+        }
+        // if all checks pass register the user
         if (userDAO.registerUser(username, password, fname, lname)) {
             signUpMessageLabel.setText("User Registration Successful");
         } else {

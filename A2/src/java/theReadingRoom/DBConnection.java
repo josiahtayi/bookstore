@@ -23,6 +23,7 @@ public class DBConnection {
         if (DBLink != null) {
             try {
                 DBLink.close();
+                System.out.println("Closed the database successfully");
             } catch (SQLException e) {
                 e.printStackTrace();
             }

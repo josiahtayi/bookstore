@@ -12,7 +12,6 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="theReadingRoom.ProfileController">
    <right>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="375.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
@@ -47,6 +46,7 @@
       
                     <!-- Cancel Button -->
               <Button fx:id="profileCancel" layoutX="65.0" layoutY="330.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#cancel" prefHeight="50.0" prefWidth="250.0" style="-fx-background-color: #3f51b5;" text="Cancel" textFill="WHITE" />
+            <Label fx:id="warningLbl" layoutX="174.0" layoutY="233.0" textFill="RED" />
           </children>
       </AnchorPane>
    </right>

@@ -143,6 +143,7 @@ public class AdminController {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
+            DBConnection.closeLink(); // close the database connection when the scene is closed
         } catch (Exception e) {
             e.printStackTrace();
             e.getCause();

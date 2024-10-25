@@ -79,8 +79,6 @@ public class OrderController {
         } catch (SQLException e) {
             e.printStackTrace();
             // Consider showing an alert here
-        } finally {
-            DBConnection.closeLink();
         }
     }
 
@@ -132,6 +130,7 @@ public class OrderController {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
+            DBConnection.closeLink(); // close the database connection when the scene is closed
         } catch (Exception e) {
             e.printStackTrace();
         }

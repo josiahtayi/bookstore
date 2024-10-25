@@ -101,7 +101,6 @@ public class DashboardController implements Initializable {
     }
 
     public void loadTop5Books() {
-        Connection connection = DBConnection.openLink();
         ObservableList<Book> top5Books = FXCollections.observableArrayList();
         String query = "SELECT Title FROM Books ORDER BY sales DESC LIMIT 5";
         try {
@@ -116,13 +115,10 @@ public class DashboardController implements Initializable {
             stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            DBConnection.closeLink();
         }
     }
 
     public void searchBooks() {
-        Connection connection = DBConnection.openLink();
         ObservableList<Book> BooksList = FXCollections.observableArrayList();
         String query = "SELECT Title, Author, Stock, Price  FROM Books";
         try {
@@ -156,8 +152,6 @@ public class DashboardController implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
             e.getCause();
-        } finally {
-            DBConnection.closeLink();
         }
     }
 
@@ -210,7 +204,6 @@ public class DashboardController implements Initializable {
 
     // this method saves the contents of the cart to a database table
     private void saveToDB(ShoppingCart cartIem) {
-        Connection connection = DBConnection.openLink();
         String query = "INSERT INTO UserCart (Username, Title, Author, Price, Quantity, Status) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement psmt = connection.prepareStatement(query)) {
             psmt.setString(1, this.username);
@@ -224,8 +217,6 @@ public class DashboardController implements Initializable {
         } catch (SQLException e) {
             e.getCause();
             System.out.println("Error saving the cart");
-        } finally {
-            DBConnection.closeLink();
         }
     }
 
@@ -264,8 +255,6 @@ public class DashboardController implements Initializable {
             }
         } catch (SQLException e) {
             e.getCause();
-        } finally {
-            DBConnection.closeLink();
         }
         return stock;
     }
@@ -280,6 +269,7 @@ public class DashboardController implements Initializable {
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
+            DBConnection.closeLink(); // close the database connection when the scene is closed
         } catch (IOException e) {
             showAlert("Error loading orders. Please try again.");
         }
@@ -295,6 +285,7 @@ public class DashboardController implements Initializable {
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
+            DBConnection.closeLink(); // close the database connection when the scene is closed
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -310,6 +301,7 @@ public class DashboardController implements Initializable {
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
+            DBConnection.closeLink(); // close the database connection when the scene is closed
         } catch (Exception e) {
             e.printStackTrace();
             e.getCause();
