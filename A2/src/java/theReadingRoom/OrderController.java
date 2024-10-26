@@ -78,7 +78,6 @@ public class OrderController {
             ordersTable.setItems(orderItems);
         } catch (SQLException e) {
             e.printStackTrace();
-            // Consider showing an alert here
         }
     }
 

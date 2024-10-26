@@ -155,7 +155,7 @@ public class CheckoutController {
             DBConnection.closeLink();
         }
     }
-
+    //add the purchase to an order table in the database
     public void insertOrder(Orders order) {
         String sql = "INSERT INTO Orders (Order_ID, Username, Date, Total, Description) Values (?,?,?,?,?)";
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -175,7 +175,7 @@ public class CheckoutController {
             e.getCause();
         }
     }
-
+    //this changes the stock of books after a checkout is completed
     public void updateBookInventory(ObservableList<ShoppingCart> cartItems) {
         String query = "UPDATE Books SET Stock  = Stock - ? WHERE Title = ?";
         try (PreparedStatement psmt = connection.prepareStatement(query)) {

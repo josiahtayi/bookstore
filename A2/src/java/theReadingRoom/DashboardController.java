@@ -80,9 +80,9 @@ public class DashboardController implements Initializable {
         TranslateTransition marqueeTransition = new TranslateTransition();
         // Set the duration for the transition (adjust the speed here)
         marqueeTransition.setDuration(Duration.seconds(20)); // Adjust this for scrolling speed
-        // Set the starting point (label will start just outside the right side of the window)
+        // Set the starting point (just outside the window
         marqueeTransition.setFromX(599);
-        // Set the ending point (label will exit the screen to the left)
+        // Set the ending point somewhere on the left of the page offscreen
         marqueeTransition.setToX(-820);
         // Set the label as the target of the transition
         marqueeTransition.setNode(marqueeLabel);
@@ -91,9 +91,7 @@ public class DashboardController implements Initializable {
         marqueeTransition.setAutoReverse(false);
         // Start the animation
         marqueeTransition.play();
-        // Listen for the end of the transition
         marqueeTransition.setOnFinished(event -> {
-            // Immediately reset the position to the start for continuous scrolling
             marqueeLabel.setTranslateX(600); // Reset position to the right
             // Restart the marquee
             marqueeTransition.play();
@@ -202,41 +200,6 @@ public class DashboardController implements Initializable {
         }
     }
 
-    // this method saves the contents of the cart to a database table
-    private void saveToDB(ShoppingCart cartIem) {
-        String query = "INSERT INTO UserCart (Username, Title, Author, Price, Quantity, Status) VALUES (?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement psmt = connection.prepareStatement(query)) {
-            psmt.setString(1, this.username);
-            psmt.setString(2, cartIem.getTitle());
-            psmt.setString(3, cartIem.getAuthor());
-            psmt.setDouble(4, cartIem.getPrice());
-            psmt.setInt(5, cartIem.getQuantity());
-            psmt.setBoolean(6, false); //this sets a status column to false which corresponds to is
-            //the cart has been checked out
-            psmt.executeUpdate();
-        } catch (SQLException e) {
-            e.getCause();
-            System.out.println("Error saving the cart");
-        }
-    }
-
-    public void openShoppingCart(ActionEvent actionEvent) {
-        try {
-            FXMLLoader loader;
-            loader = new FXMLLoader(getClass().getResource("ShoppingCart.fxml"));
-            root = loader.load();
-            CartController cartController = loader.getController();
-            cartController.setStockCheckCallback(this::checkStockAvailability);
-            stage = (Stage) shoppingCartBtn.getScene().getWindow();
-            // Create and set up the new stage for shopping cart page
-            scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            e.getCause();
-        }
-    }
-
     // Callback method to verify stock availability
     private boolean checkStockAvailability(ShoppingCart item) {
         int availableStock = getStockForBook(item.getTitle());
@@ -257,6 +220,26 @@ public class DashboardController implements Initializable {
             e.getCause();
         }
         return stock;
+    }
+
+    // this method saves the contents of the cart to a database table
+    private void saveToDB(ShoppingCart cartIem) {
+        Connection connection = DBConnection.openLink();
+        String query = "INSERT INTO UserCart (Username, Title, Author, Price, Quantity, Status) VALUES (?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement psmt = connection.prepareStatement(query)) {
+            psmt.setString(1, this.username);
+            psmt.setString(2, cartIem.getTitle());
+            psmt.setString(3, cartIem.getAuthor());
+            psmt.setDouble(4, cartIem.getPrice());
+            psmt.setInt(5, cartIem.getQuantity());
+            psmt.setBoolean(6, false); //this sets a status column to false which corresponds to is
+            //the cart has been checked out
+            psmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            e.getCause();
+            System.out.println("Error saving the cart");
+        }
     }
 
     public void showOrders(ActionEvent actionEvent) {
@@ -304,6 +287,23 @@ public class DashboardController implements Initializable {
             DBConnection.closeLink(); // close the database connection when the scene is closed
         } catch (Exception e) {
             e.printStackTrace();
+            e.getCause();
+        }
+    }
+
+    public void openShoppingCart(ActionEvent actionEvent) {
+        try {
+            FXMLLoader loader;
+            loader = new FXMLLoader(getClass().getResource("ShoppingCart.fxml"));
+            root = loader.load();
+            CartController cartController = loader.getController();
+            cartController.setStockCheckCallback(this::checkStockAvailability);
+            stage = (Stage) shoppingCartBtn.getScene().getWindow();
+            // Create and set up the new stage for shopping cart page
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
             e.getCause();
         }
     }

@@ -46,7 +46,6 @@ public class CartController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         // Set up table columns
         cartTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         cartPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
@@ -58,6 +57,7 @@ public class CartController implements Initializable {
         loadCartItemsFromDatabase();
     }
 
+    // collects the stored cart from the previous interactions
     public void loadCartItemsFromDatabase() {
         ObservableList<ShoppingCart> loadedCartItems = FXCollections.observableArrayList();
         String query = "SELECT Title, Price, Quantity FROM UserCart WHERE Username = ? AND Status = ?";
@@ -97,6 +97,7 @@ public class CartController implements Initializable {
         cartTotal.setText("Total: AU$" + total);
     }
 
+    //this removes the book from the cart
     public void doRemoveBook(ActionEvent actionEvent) {
         ShoppingCart selectedItem = (ShoppingCart) cartTable.getSelectionModel().getSelectedItem();
         if (selectedItem != null) {
@@ -141,6 +142,7 @@ public class CartController implements Initializable {
         }
     }
 
+    // im usng this method to change the quantity from the shopping cart
     public void updateItemInDB(ShoppingCart cartItem) {
         String query = "UPDATE UserCart SET Quantity = ? WHERE Username = ? AND Title = ?";
         try (PreparedStatement psmt = connection.prepareStatement(query)) {
@@ -149,34 +151,6 @@ public class CartController implements Initializable {
             psmt.setString(3, cartItem.getTitle());
             psmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void goToCheckout(ActionEvent actionEvent) {
-        // Ensure stock is available for all items in the cart before proceeding to checkout
-        for (ShoppingCart item : cartItems) {
-            if (stockCheckCallback != null && !stockCheckCallback.apply(item)) {
-                showAlert(Alert.AlertType.WARNING, "Insufficient Stock",
-                        "Sorry " + item.getTitle() + " is out of stock");
-                return;
-            }
-        }
-        try {
-            stage = (Stage) checkOutBtn.getScene().getWindow();
-            FXMLLoader loader;
-            loader = new FXMLLoader(getClass().getResource("Checkout.fxml"));
-            root = loader.load();
-            CheckoutController checkoutController = loader.getController();
-            double total = calculateTotal();
-            checkoutController.setBillTotal(total);
-            checkoutController.findTotal(total);
-            checkoutController.setCartItems(cartItems);
-            // Create and set up the new stage for checkout
-            scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -195,13 +169,34 @@ public class CartController implements Initializable {
         this.stockCheckCallback = stockCheckCallback;
     }
 
-    private void showAlert(Alert.AlertType alertType, String title, String message) {
-        Alert alert = new Alert(alertType);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+    public void goToCheckout(ActionEvent actionEvent) {
+        // Ensure stock is available for all items in the cart before proceeding to checkout
+        for (ShoppingCart item : cartItems) {
+            if (stockCheckCallback != null && !stockCheckCallback.apply(item)) {
+                showAlert(Alert.AlertType.WARNING, "Insufficient Stock",
+                        "Sorry " + item.getTitle() + " is out of stock");
+                return;
+            }
+        }
+        try {
+            stage = (Stage) checkOutBtn.getScene().getWindow();
+            FXMLLoader loader;
+            loader = new FXMLLoader(getClass().getResource("Checkout.fxml"));
+            root = loader.load();
+            CheckoutController checkoutController = loader.getController();
+            double total = calculateTotal(); //thi send the total to the checkout screen
+            checkoutController.setBillTotal(total);
+            checkoutController.findTotal(total); //
+            checkoutController.setCartItems(cartItems);
+            // Create and set up the new stage for checkout
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
     public void backToDashboard(ActionEvent event) {
         try {
             stage = (Stage) backBtn.getScene().getWindow();
@@ -216,5 +211,13 @@ public class CartController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void showAlert(Alert.AlertType alertType, String title, String message) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
